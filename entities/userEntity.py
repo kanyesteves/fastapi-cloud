@@ -1,6 +1,7 @@
 from sqlalchemy import String, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+
 class UserBase(DeclarativeBase):
     pass
 
