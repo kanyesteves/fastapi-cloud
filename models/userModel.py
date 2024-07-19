@@ -1,8 +1,18 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+
+
 
 class UserModel(BaseModel):
-    id: int
     name: str
     passwd: str
+    email: bool
     office: str
-    acess_gestor: bool
+
+class UserPublic(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    office: str
+
+class UserList(BaseModel):
+    users: list[UserPublic]

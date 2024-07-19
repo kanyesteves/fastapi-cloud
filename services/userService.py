@@ -21,7 +21,7 @@ class UserService:
                 {
                     "id": user.id,
                     "name": user.name,
-                    "password": user.senha,
+                    "email": user.email,
                     "office": user.office,
                 }
                 for user in all_users
@@ -29,8 +29,8 @@ class UserService:
             df = pd.DataFrame(self.all_users)
             return df
 
-    def createUser(self, name, password, office, **kwargs):
+    def createUser(self, name, password, email, office, **kwargs):
         with Session(bind=self.conn.engine) as session:
-            user = UserEntity(name=name, password=self.lib.set_password(password), office=office, **kwargs)
+            user = UserEntity(name=name, password=self.lib.set_password(password), email=email, office=office, **kwargs)
             session.add(user)
             session.commit()
