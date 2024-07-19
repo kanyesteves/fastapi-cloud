@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 
-PATH_TO_DB = 'mysql+pymysql://root:#GIK64LK:;)IP//"@34.134.251.247/users'
+PATH_TO_DB = 'mysql+pymysql://root:#GIK64LK:;)IP//"@34.134.251.247/volatex'
 
 
 class ConnectDB():

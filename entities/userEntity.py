@@ -10,9 +10,8 @@ class UserEntity(UserBase):
 
     id:             Mapped[int]  = mapped_column(primary_key=True)
     name:           Mapped[str]  = mapped_column(String(50))
-    senha:          Mapped[str]  = mapped_column(String(128))
+    password:       Mapped[str]  = mapped_column(String(128))
     office:         Mapped[str]  = mapped_column(String(50))
-    acess_gestor:   Mapped[bool] = mapped_column(Boolean, default=False)
 
 
     def __repr__(self):

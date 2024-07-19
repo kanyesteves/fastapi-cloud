@@ -10,8 +10,11 @@ __pycache__/
 # C extensions
 *.so
 
-# Distribution / packaging
+# Customize
 fastapicloud/
+connDB.py
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
