@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from utils.connDB import ConnectDB
 from utils.libs import Libs
 from entities.userEntity import UserEntity
+from models.userModel import UserModel
 
 conn = ConnectDB()
 
@@ -29,8 +30,8 @@ class UserService:
             df = pd.DataFrame(self.all_users)
             return df
 
-    def createUser(self, name, password, email, office, **kwargs):
+    def createUser(self, user: UserModel):
         with Session(bind=self.conn.engine) as session:
-            user = UserEntity(name=name, password=self.lib.set_password(password), email=email, office=office, **kwargs)
-            session.add(user)
+            user_entity = UserEntity(user)
+            session.add(user_entity)
             session.commit()

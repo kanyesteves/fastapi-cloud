@@ -5,8 +5,11 @@ from pydantic import BaseModel, EmailStr
 class UserModel(BaseModel):
     name: str
     passwd: str
-    email: bool
+    email: EmailStr
     office: str
+
+class UserResponseModel(UserModel):
+    id: int
 
 class UserPublic(BaseModel):
     id: int
