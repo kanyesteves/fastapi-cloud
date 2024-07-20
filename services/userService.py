@@ -42,7 +42,8 @@ class UserService:
 
     def updateUser(self, id, userSchema: UserSchema):
         with Session(bind=conn.engine) as session:
-            select_query = select(UserEntity).filter_by(id=id)
+            userEntity = UserEntity(name=user.name, password=user.passwd, office=user.office, email=user.email)
+            select_query = select(userEntity).filter_by(id=id)
             users = session.execute(select_query).fetchall()
             for user in users:
                 for key, value in userSchema.items():

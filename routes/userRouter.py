@@ -32,7 +32,7 @@ def getUserById(user_id: int):
         return HTTPStatus.NOT_FOUND
 
 @router.put('/update/{user_id}', status_code=HTTPStatus.OK)
-def updateUser(user_id: int, user: UserSchema):
+def updateUser(user_id: int, user: UserUpdate):
     try: 
         service.updateUser(user_id, user)
         return "Usuário atualizado com sucesso !!"
