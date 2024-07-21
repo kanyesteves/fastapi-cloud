@@ -13,7 +13,7 @@ class TearResponseModel(TearSchema):
 class TearUpdate(BaseModel):
     name: Optional[str] = None
     model: Optional[str] = None
-    bool: Optional[bool] = None
+    status: Optional[bool] = None
 
 class TearPublic(BaseModel):
     id: int

@@ -23,7 +23,7 @@ def getAllTeares():
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
 
-@router.get('/{user_id}', status_code=HTTPStatus.OK, response_model=TearPublic)
+@router.get('/{tear_id}', status_code=HTTPStatus.OK, response_model=TearPublic)
 def getTearById(tear_id: int):
     try: 
         tear = service.getTearById(tear_id)
@@ -31,12 +31,12 @@ def getTearById(tear_id: int):
     except:
         return HTTPStatus.NOT_FOUND
 
-@router.put('/update/{user_id}', status_code=HTTPStatus.OK)
+@router.put('/update/{tear_id}', status_code=HTTPStatus.OK)
 def updateTear(tear_id: int, tear: TearUpdate):
     service.updateTear(tear_id, tear)
     return "Tear atualizado com sucesso !!"
 
-@router.delete('/remove/{user_id}', status_code=HTTPStatus.OK)
+@router.delete('/remove/{tear_id}', status_code=HTTPStatus.OK)
 def removeTear(tear_id: int):
     try: 
         service.deleteTear(tear_id)
