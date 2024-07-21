@@ -21,6 +21,7 @@ class TearService:
                     "id": tear.id,
                     "name": tear.name,
                     "model": tear.model,
+                    "status": tear.status,
                 }
                 for tear in all_tear
             ]
@@ -34,7 +35,7 @@ class TearService:
 
     def createTear(self, tear: TearSchema):
         with Session(bind=conn.engine) as session:
-            tear_entity = TearEntity(name=tear.name, model=tear.model)
+            tear_entity = TearEntity(name=tear.name, model=tear.model, status=tear.status)
             session.add(tear_entity)
             session.commit()
 
