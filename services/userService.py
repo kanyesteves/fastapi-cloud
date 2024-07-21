@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from utils.connDB import ConnectDB
 from utils.libs import Libs
-from schemas.userSchema import UserPublic, UserSchema
+from schemas.userSchema import UserPublic, UserSchema, UserUpdate
 from entities.userEntity import UserEntity
 
 conn = ConnectDB()
@@ -40,13 +40,12 @@ class UserService:
             session.add(user_entity)
             session.commit()
 
-    def updateUser(self, id, userSchema: UserSchema):
+    def updateUser(self, id, userSchema: UserUpdate):
         with Session(bind=conn.engine) as session:
-            userEntity = UserEntity(name=user.name, password=user.passwd, office=user.office, email=user.email)
-            select_query = select(userEntity).filter_by(id=id)
+            select_query = select(UserEntity).filter_by(id=id)
             users = session.execute(select_query).fetchall()
             for user in users:
-                for key, value in userSchema.items():
+                for key, value in userSchema.dict(exclude_unset=True).items():
                     setattr(user[0], key, value)
 
             session.commit()

@@ -33,11 +33,8 @@ def getUserById(user_id: int):
 
 @router.put('/update/{user_id}', status_code=HTTPStatus.OK)
 def updateUser(user_id: int, user: UserUpdate):
-    try: 
-        service.updateUser(user_id, user)
-        return "Usuário atualizado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
+    service.updateUser(user_id, user)
+    return "Usuário atualizado com sucesso !!"
 
 @router.delete('/remove/{user_id}', status_code=HTTPStatus.OK)
 def removeUser(user_id: int):
