@@ -1,0 +1,58 @@
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+from utils.connDB import ConnectDB
+from utils.libs import Libs
+from schemas.tearSchema import TearSchema, TearUpdate
+from entities.tearEntity import TearEntity
+
+conn = ConnectDB()
+
+class TearService:
+    def __init__(self):
+        self.lib = Libs()
+
+    def getAllTeares(self):
+        with Session(bind=conn.engine) as session:
+            select_query = select(TearEntity)
+            all_tear = session.execute(select_query).fetchall()
+            all_tear = [tear[0] for tear in all_tear]
+            all_tear = [
+                {
+                    "id": tear.id,
+                    "name": tear.name,
+                    "model": tear.model,
+                }
+                for tear in all_tear
+            ]
+            return all_tear
+        
+    def getTearById(self, id):
+        with Session(bind=conn.engine) as session:
+            select_query = select(TearEntity).filter_by(id=id)
+            tear = session.execute(select_query).fetchall()
+            return tear[0][0]
+
+    def createTear(self, tear: TearSchema):
+        with Session(bind=conn.engine) as session:
+            tear_entity = TearEntity(name=tear.name, model=tear.model)
+            session.add(tear_entity)
+            session.commit()
+
+    def updateTear(self, id, tearSchema: TearUpdate):
+        with Session(bind=conn.engine) as session:
+            select_query = select(TearEntity).filter_by(id=id)
+            teares = session.execute(select_query).fetchall()
+            for tear in teares:
+                for key, value in tearSchema.dict(exclude_unset=True).items():
+                    setattr(tear[0], key, value)
+
+            session.commit()
+
+    def deleteTear(self, id):
+        with Session(bind=conn.engine) as session:
+            select_query = select(TearEntity).filter_by(id=id)
+            teares = session.execute(select_query).fetchall()
+            for tear in teares:
+                session.delete(tear[0])
+
+            session.commit()

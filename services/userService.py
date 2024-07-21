@@ -1,9 +1,8 @@
-import pandas as pd
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from utils.connDB import ConnectDB
 from utils.libs import Libs
-from schemas.userSchema import UserPublic, UserSchema, UserUpdate
+from schemas.userSchema import UserSchema, UserUpdate
 from entities.userEntity import UserEntity
 
 conn = ConnectDB()
