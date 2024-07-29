@@ -6,14 +6,6 @@ from http import HTTPStatus
 
 router = APIRouter(prefix='/operators', tags=['Operators Endpoints'])
 service = OperatorService()
-
-@router.post('/register', status_code=HTTPStatus.CREATED)
-def createOperator(operator: OperatorSchema):
-    try: 
-        service.createOperator(operator)
-        return "Operador criado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllOperators():
@@ -30,6 +22,14 @@ def getOperatorById(operator_id: int):
         return operator
     except:
         return HTTPStatus.NOT_FOUND
+    
+@router.post('/register', status_code=HTTPStatus.CREATED)
+def createOperator(operator: OperatorSchema):
+    try: 
+        service.createOperator(operator)
+        return "Operador criado com sucesso !!"
+    except:
+        return HTTPStatus.UNPROCESSABLE_ENTITY
 
 @router.put('/update/{operator_id}', status_code=HTTPStatus.OK)
 def updateOperator(operator_id: int, operator: OperatorUpdate):

@@ -6,14 +6,6 @@ from http import HTTPStatus
 
 router = APIRouter(prefix='/users', tags=['Users Endpoints'])
 service = UserService()
-
-@router.post('/register', status_code=HTTPStatus.CREATED)
-def createUser(user: UserSchema):
-    try: 
-        service.createUser(user)
-        return "Usuário criado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllUsers():
@@ -30,6 +22,14 @@ def getUserById(user_id: int):
         return user
     except:
         return HTTPStatus.NOT_FOUND
+    
+@router.post('/register', status_code=HTTPStatus.CREATED)
+def createUser(user: UserSchema):
+    try: 
+        service.createUser(user)
+        return "Usuário criado com sucesso !!"
+    except:
+        return HTTPStatus.UNPROCESSABLE_ENTITY
 
 @router.put('/update/{user_id}', status_code=HTTPStatus.OK)
 def updateUser(user_id: int, user: UserUpdate):

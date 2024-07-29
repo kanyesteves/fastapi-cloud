@@ -6,14 +6,6 @@ from http import HTTPStatus
 
 router = APIRouter(prefix='/orderOfOperatios', tags=['Order Of Operatios Endpoints'])
 service = OrderOfOperationrService()
-
-@router.post('/register', status_code=HTTPStatus.CREATED)
-def createOP(op: OrderOfOperationrSchema):
-    try: 
-        service.createOP(op)
-        return "Order de operação criado com sucesso !!"
-    except:
-        return HTTPStatus.INTERNAL_SERVER_ERROR
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllOPs():
@@ -30,6 +22,14 @@ def getOPById(op_id: int):
         return op
     except:
         return HTTPStatus.NOT_FOUND
+    
+@router.post('/register', status_code=HTTPStatus.CREATED)
+def createOP(op: OrderOfOperationrSchema):
+    try: 
+        service.createOP(op)
+        return "Order de operação criado com sucesso !!"
+    except:
+        return HTTPStatus.INTERNAL_SERVER_ERROR
 
 @router.put('/update/{op_id}', status_code=HTTPStatus.OK)
 def updateOP(op_id: int, op: OrderOfOperationrUpdate):

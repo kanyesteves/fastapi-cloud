@@ -6,14 +6,6 @@ from http import HTTPStatus
 
 router = APIRouter(prefix='/customers', tags=['Customers Endpoints'])
 service = CustomerService()
-
-@router.post('/register', status_code=HTTPStatus.CREATED)
-def createCustomer(customer: CustomerSchema):
-    try: 
-        service.createCustomer(customer)
-        return "Cliente criado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllCustomers():
@@ -30,6 +22,14 @@ def getCustomerById(customer_id: int):
         return customer
     except:
         return HTTPStatus.NOT_FOUND
+    
+@router.post('/register', status_code=HTTPStatus.CREATED)
+def createCustomer(customer: CustomerSchema):
+    try: 
+        service.createCustomer(customer)
+        return "Cliente criado com sucesso !!"
+    except:
+        return HTTPStatus.UNPROCESSABLE_ENTITY
 
 @router.put('/update/{customer_id}', status_code=HTTPStatus.OK)
 def updateCustomer(customer_id: int, customer: CustomerUpdate):

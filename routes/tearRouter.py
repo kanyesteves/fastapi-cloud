@@ -6,14 +6,6 @@ from http import HTTPStatus
 
 router = APIRouter(prefix='/teares', tags=['Teares Endpoints'])
 service = TearService()
-
-@router.post('/register', status_code=HTTPStatus.CREATED)
-def createTear(tear: TearSchema):
-    try: 
-        service.createTear(tear)
-        return "Tear criado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllTeares():
@@ -30,6 +22,14 @@ def getTearById(tear_id: int):
         return tear
     except:
         return HTTPStatus.NOT_FOUND
+    
+@router.post('/register', status_code=HTTPStatus.CREATED)
+def createTear(tear: TearSchema):
+    try: 
+        service.createTear(tear)
+        return "Tear criado com sucesso !!"
+    except:
+        return HTTPStatus.UNPROCESSABLE_ENTITY
 
 @router.put('/update/{tear_id}', status_code=HTTPStatus.OK)
 def updateTear(tear_id: int, tear: TearUpdate):

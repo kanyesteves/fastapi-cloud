@@ -41,7 +41,6 @@ CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
 	`name`    VARCHAR(100) NOT NULL,
 	`article` VARCHAR(100) NOT NULL,
 	CONSTRAINT customers_pk PRIMARY KEY (`id`),
-	CONSTRAINT customers_unique UNIQUE KEY (`name`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
