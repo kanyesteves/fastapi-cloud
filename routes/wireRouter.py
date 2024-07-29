@@ -15,7 +15,7 @@ def getAllWires():
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
 
-@router.get('/{customer_id}', status_code=HTTPStatus.OK, response_model=WirePublic)
+@router.get('/{wire_id}', status_code=HTTPStatus.OK, response_model=WirePublic)
 def getWireById(wire_id: int):
     try: 
         wire = service.getWireById(wire_id)
@@ -36,10 +36,10 @@ def updateWire(wire_id: int, wire: WireUpdate):
     service.updateWire(wire_id, wire)
     return "Fio atualizado com sucesso !!"
 
-@router.delete('/remove/{customer_id}', status_code=HTTPStatus.OK)
-def removeWire(Wire_id: int):
+@router.delete('/remove/{wire_id}', status_code=HTTPStatus.OK)
+def removeWire(wire_id: int):
     try: 
-        service.deleteWire(Wire_id)
+        service.deleteWire(wire_id)
         return "Fio removido com sucesso !!"
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY

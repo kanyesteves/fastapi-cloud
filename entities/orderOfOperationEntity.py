@@ -5,7 +5,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 class OrderOfOperationBase(DeclarativeBase):
     pass
 
-class OrderOfOperationrEntity(OrderOfOperationBase):
+class OrderOfOperationEntity(OrderOfOperationBase):
     __tablename__ = 'order_of_operation'
 
     id:                Mapped[int]            = mapped_column(primary_key=True, autoincrement=True)

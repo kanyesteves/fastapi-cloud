@@ -3,8 +3,8 @@ from sqlalchemy import select
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
-from schemas.orderOfOperationSchema import OrderOfOperationrSchema, OrderOfOperationrUpdate
-from entities.orderOfOperationEntity import OrderOfOperationrEntity
+from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationUpdate
+from entities.orderOfOperationEntity import OrderOfOperationEntity
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
@@ -16,7 +16,7 @@ class OrderOfOperationrService:
 
     def getAllOPs(self):
         try:
-            select_query = select(OrderOfOperationrEntity)
+            select_query = select(OrderOfOperationEntity)
             all_ops = session.execute(select_query).fetchall()
             all_ops = [op[0] for op in all_ops]
             all_ops = [
@@ -40,7 +40,7 @@ class OrderOfOperationrService:
         
     def getOPById(self, id):
         try:
-            select_query = select(OrderOfOperationrEntity).filter_by(id=id)
+            select_query = select(OrderOfOperationEntity).filter_by(id=id)
             op = session.execute(select_query).fetchall()
             return op[0][0]
         except SQLAlchemyError as er:
@@ -49,9 +49,9 @@ class OrderOfOperationrService:
         finally:
             session.close()
 
-    def createOP(self, op: OrderOfOperationrSchema):
+    def createOP(self, op: OrderOfOperationSchema):
         try:
-            op_entity = OrderOfOperationrEntity(
+            op_entity = OrderOfOperationEntity(
                                         code=op.code, 
                                         weight_per_piece=op.weight_per_piece, 
                                         customer_id=op.customer_id, 
@@ -65,9 +65,9 @@ class OrderOfOperationrService:
         finally:
             session.close()
 
-    def updateOP(self, id, orderOfOperationsSchema: OrderOfOperationrUpdate):
+    def updateOP(self, id, orderOfOperationsSchema: OrderOfOperationUpdate):
         try:
-            select_query = select(OrderOfOperationrEntity).filter_by(id=id)
+            select_query = select(OrderOfOperationEntity).filter_by(id=id)
             ops = session.execute(select_query).fetchall()
             for op in ops:
                 for key, value in orderOfOperationsSchema.dict(exclude_unset=True).items():
@@ -82,7 +82,7 @@ class OrderOfOperationrService:
 
     def deleteOP(self, id):
         try:
-            select_query = select(OrderOfOperationrEntity).filter_by(id=id)
+            select_query = select(OrderOfOperationEntity).filter_by(id=id)
             ops = session.execute(select_query).fetchall()
             for op in ops:
                 session.delete(op[0])
