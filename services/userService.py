@@ -1,18 +1,23 @@
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.exc import SQLAlchemyError
 from utils.connDB import ConnectDB
 from utils.libs import Libs
 from schemas.userSchema import UserSchema, UserUpdate
 from entities.userEntity import UserEntity
 
 conn = ConnectDB()
+Session = sessionmaker(bind=conn.engine)
+session = Session()
+
+libs = Libs()
 
 class UserService:
     def __init__(self):
         self.lib = Libs()
 
     def getAllUsers(self):
-        with Session(bind=conn.engine) as session:
+        try:
             select_query = select(UserEntity)
             all_users = session.execute(select_query).fetchall()
             all_users = [user[0] for user in all_users]
@@ -26,21 +31,38 @@ class UserService:
                 for user in all_users
             ]
             return all_users
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
         
     def getUserById(self, id):
-        with Session(bind=conn.engine) as session:
+        try:
             select_query = select(UserEntity).filter_by(id=id)
             user = session.execute(select_query).fetchall()
             return user[0][0]
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+    
 
     def createUser(self, user: UserSchema):
-        with Session(bind=conn.engine) as session:
-            user_entity = UserEntity(name=user.name, password=user.passwd, office=user.office, email=user.email)
+        try:
+            user_entity = UserEntity(name=user.name, password=user.password, office=user.office, email=user.email)
             session.add(user_entity)
             session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+        
 
     def updateUser(self, id, userSchema: UserUpdate):
-        with Session(bind=conn.engine) as session:
+        try:
             select_query = select(UserEntity).filter_by(id=id)
             users = session.execute(select_query).fetchall()
             for user in users:
@@ -48,12 +70,22 @@ class UserService:
                     setattr(user[0], key, value)
 
             session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
 
     def deleteUser(self, id):
-        with Session(bind=conn.engine) as session:
+        try:
             select_query = select(UserEntity).filter_by(id=id)
             users = session.execute(select_query).fetchall()
             for user in users:
                 session.delete(user[0])
 
             session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()

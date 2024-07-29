@@ -5,3 +5,4 @@ uvicorn
 pymysql
 pandas
 werkzeug
+cryptography
