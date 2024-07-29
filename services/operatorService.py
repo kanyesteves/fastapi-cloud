@@ -18,7 +18,7 @@ class OperatorService:
         try:
             select_query = select(OperatorEntity)
             all_operators = session.execute(select_query).fetchall()
-            all_operators = [tear[0] for tear in all_operators]
+            all_operators = [operator[0] for operator in all_operators]
             all_operators = [
                 {
                     "id": operator.id,

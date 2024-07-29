@@ -18,7 +18,7 @@ class OrderOfOperationrService:
         try:
             select_query = select(OrderOfOperationrEntity)
             all_ops = session.execute(select_query).fetchall()
-            all_ops = [tear[0] for tear in all_ops]
+            all_ops = [op[0] for op in all_ops]
             all_ops = [
                 {
                     "id": op.id,

@@ -18,7 +18,7 @@ class CustomerService:
         try:
             select_query = select(CustomerEntity)
             all_customers = session.execute(select_query).fetchall()
-            all_customers = [tear[0] for tear in all_customers]
+            all_customers = [customer[0] for customer in all_customers]
             all_customers = [
                 {
                     "id": customer.id,
