@@ -1,3 +1,5 @@
+USE `volatex`;
+
 CREATE TABLE IF NOT EXISTS `volatex`.`users` (
 	`id`       INT auto_increment NOT NULL,
 	`name`     VARCHAR(100) NOT NULL,
