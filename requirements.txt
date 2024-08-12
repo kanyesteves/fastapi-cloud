@@ -1,6 +1,7 @@
 sqlalchemy
 fastapi
 pydantic
+pydantic[email]
 uvicorn
 pymysql
 pandas
