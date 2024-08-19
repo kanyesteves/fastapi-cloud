@@ -11,6 +11,7 @@ class OperatorEntity(OperatorBase):
     id:             Mapped[int]  = mapped_column(primary_key=True, autoincrement=True)
     name:           Mapped[str]  = mapped_column(String(50))
     office:         Mapped[str]  = mapped_column(String(50))
+    turn:           Mapped[str]  = mapped_column(String(50))
 
     def __repr__(self):
         return f"OperatorModel(f{self.id=}, {self.name=})"

@@ -24,6 +24,7 @@ class OperatorService:
                     "id": operator.id,
                     "name": operator.name,
                     "office": operator.office,
+                    "turn": operator.turn,
                 }
                 for operator in all_operators
             ]
@@ -47,7 +48,7 @@ class OperatorService:
 
     def createOperator(self, operator: OperatorSchema):
         try:
-            operator_entity = OperatorEntity(name=operator.name, office=operator.office)
+            operator_entity = OperatorEntity(name=operator.name, office=operator.office, turn=operator.turn)
             session.add(operator_entity)
             session.commit()
         except SQLAlchemyError as er:

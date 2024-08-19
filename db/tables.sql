@@ -25,7 +25,7 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `volatex`.`order_of operation` (
+CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
 	`id`               INT auto_increment NOT NULL,
 	`code`             VARCHAR(100) NOT NULL,
 	`weight_per_piece` FLOAT NOT NULL,
@@ -48,12 +48,13 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-ALTER TABLE `volatex`.`order_of operation` ADD CONSTRAINT order_of_operation_customers_FK FOREIGN KEY (`customer_id`) REFERENCES `volatex`.`customers`(`id`);
+ALTER TABLE `volatex`.`order_of_operation` ADD CONSTRAINT order_of_operation_customers_FK FOREIGN KEY (`customer_id`) REFERENCES `volatex`.`customers`(`id`);
 
 CREATE TABLE IF NOT EXISTS `volatex`.`operators` (
 	`id`     INT auto_increment NOT NULL,
 	`name`   VARCHAR(100) NOT NULL,
 	`office` VARCHAR(100) NOT NULL,
+	`turn`   VARCHAR(100) NOT NULL,
 	CONSTRAINT operators_pk PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
