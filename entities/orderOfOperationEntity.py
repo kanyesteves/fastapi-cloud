@@ -1,4 +1,4 @@
-from sqlalchemy import String, Float, Integer, Text
+from sqlalchemy import String, Float, Integer, Text, Date
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -14,7 +14,8 @@ class OrderOfOperationEntity(OrderOfOperationBase):
     customer_id:       Mapped[int]            = mapped_column(Integer)
     total_weight:      Mapped[float]          = mapped_column(Float)
     wire_id:           Mapped[str]            = mapped_column(Text)
-
+    status:            Mapped[str]            = mapped_column(String(20))
+    date_clodes:       Mapped[str]            = mapped_column(Date)
 
 
     def __repr__(self):

@@ -27,6 +27,7 @@ class OrderOfOperationrService:
                     "customer_id": op.customer_id,
                     "total_weight": op.total_weight,
                     "wire_id": op.wire_id,
+                    "status": op.status
 
                 }
                 for op in all_ops
