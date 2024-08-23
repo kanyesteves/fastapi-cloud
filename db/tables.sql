@@ -40,6 +40,8 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
+ALTER TABLE volatex.`order_of operation` ADD CONSTRAINT order_of_operation_unique UNIQUE KEY (code);
+
 CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
 	`id`      INT auto_increment NOT NULL,
 	`name`    VARCHAR(100) NOT NULL,

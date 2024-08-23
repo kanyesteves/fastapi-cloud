@@ -9,7 +9,6 @@ class OrderOfOperationSchema(BaseModel):
     wire_id: str
     total_weight: float
     status: str
-    date_closed: str
 
 class OrderOfOperationResponseModel(OrderOfOperationSchema):
     id: int
@@ -21,7 +20,6 @@ class OrderOfOperationUpdate(BaseModel):
     wire_id: Optional[str] = None
     total_weight: Optional[float] = None
     status: Optional[str] = None
-    date_closed: Optional[str] = None
 
 
 class OrderOfOperationPublic(BaseModel):

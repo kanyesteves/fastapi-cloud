@@ -15,7 +15,7 @@ class OrderOfOperationEntity(OrderOfOperationBase):
     total_weight:      Mapped[float]          = mapped_column(Float)
     wire_id:           Mapped[str]            = mapped_column(Text)
     status:            Mapped[str]            = mapped_column(String(20))
-    date_clodes:       Mapped[str]            = mapped_column(Date)
+    date_closed:       Mapped[str]            = mapped_column(Date)
 
 
     def __repr__(self):
