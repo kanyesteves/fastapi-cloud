@@ -40,7 +40,7 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-ALTER TABLE volatex.`order_of operation` ADD CONSTRAINT order_of_operation_unique UNIQUE KEY (code);
+ALTER TABLE volatex.`order_of_operation` ADD CONSTRAINT order_of_operation_unique UNIQUE KEY (code);
 
 CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
 	`id`      INT auto_increment NOT NULL,
@@ -70,6 +70,18 @@ CREATE TABLE IF NOT EXISTS `volatex`.`wires` (
 	`name`        VARCHAR(100) NOT NULL,
 	`description` VARCHAR(500) NULL,
 	CONSTRAINT wires_pk PRIMARY KEY (`id`)
+	CONSTRAINT wires_unique UNIQUE KEY (`name`)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `volatex`.`articles` (
+	`id` 					INT auto_increment NOT NULL,
+	`name` 				VARCHAR(100) NOT NULL,
+	`description` VARCHAR(100) NULL,
+	CONSTRAINT articles_pk PRIMARY KEY (`id`),
+	CONSTRAINT articles_unique UNIQUE KEY (`name`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4

@@ -13,12 +13,20 @@ def create_app():
     )
 
     # Importar e incluir roteadores aqui
-    from routes import userRouter, tearRouter, operatorRouter, customerRouter, orderOfOperationRouter, wireRouter
+    from routes import userRouter
+    from routes import tearRouter
+    from routes import operatorRouter
+    from routes import customerRouter
+    from routes import orderOfOperationRouter
+    from routes import wireRouter
+    from routes import articleRouter
+
     app.include_router(userRouter.router)
     app.include_router(tearRouter.router)
     app.include_router(operatorRouter.router)
     app.include_router(customerRouter.router)
     app.include_router(orderOfOperationRouter.router)
     app.include_router(wireRouter.router)
+    app.include_router(articleRouter.router)
 
     return app
