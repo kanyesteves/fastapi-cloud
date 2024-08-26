@@ -1,6 +1,7 @@
 from schemas.articleSchema import ArticleSchema, ArticlePublic, ArticleUpdate
 from services.articleService import ArticleService
-from fastapi import APIRouter
+from fastapi import APIRouter, File, UploadFile
+from fastapi.responses import JSONResponse
 from http import HTTPStatus
 
 
@@ -30,6 +31,13 @@ def createArticle(article: ArticleSchema):
         return "Artigo criado com sucesso !!"
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
+
+@router.post('/upload')
+async def upload_file(file: UploadFile = File(...)):
+    file_location = f'./uploads/{file.filename}'
+    with open(file_location, 'wb') as buffer:
+        buffer.write(await file.read())
+    return JSONResponse({"info": f"{file_location}"})
 
 @router.put('/update/{article_id}', status_code=HTTPStatus.OK)
 def updateArticle(article_id: int, article: ArticleUpdate):

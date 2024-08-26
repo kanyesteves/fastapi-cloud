@@ -7,3 +7,4 @@ pymysql
 pandas
 werkzeug
 cryptography
+python-multipart

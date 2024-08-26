@@ -24,6 +24,7 @@ class ArticleService:
                     "id": article.id,
                     "name": article.name,
                     "description": article.description,
+                    "file_path": article.file_path
                 }
                 for article in all_articles
             ]
@@ -47,7 +48,7 @@ class ArticleService:
 
     def createArticle(self, article: ArticleSchema):
         try:
-            article_entity = ArticleEntity(name=article.name, description=article.description)
+            article_entity = ArticleEntity(name=article.name, description=article.description, file_path=article.file_path)
             session.add(article_entity)
             session.commit()
         except SQLAlchemyError as er:

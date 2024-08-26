@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`articles` (
 	`id` 					INT auto_increment NOT NULL,
 	`name` 				VARCHAR(100) NOT NULL,
 	`description` VARCHAR(100) NULL,
+	`file_path`   VARCHAR(100) DEFAULT '',
 	CONSTRAINT articles_pk PRIMARY KEY (`id`),
 	CONSTRAINT articles_unique UNIQUE KEY (`name`)
 )
