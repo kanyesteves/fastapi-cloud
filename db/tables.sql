@@ -45,7 +45,7 @@ ALTER TABLE volatex.`order_of_operation` ADD CONSTRAINT order_of_operation_uniqu
 CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
 	`id`      INT auto_increment NOT NULL,
 	`name`    VARCHAR(100) NOT NULL,
-	`article` VARCHAR(100) NOT NULL,
+	`article` JSON DEFAULT NULL,
 	CONSTRAINT customers_pk PRIMARY KEY (`id`),
 )
 ENGINE=InnoDB

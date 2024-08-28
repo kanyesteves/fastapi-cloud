@@ -33,8 +33,12 @@ def createCustomer(customer: CustomerSchema):
 
 @router.put('/update/{customer_id}', status_code=HTTPStatus.OK)
 def updateCustomer(customer_id: int, customer: CustomerUpdate):
-    service.updateCustomer(customer_id, customer)
-    return "Cliente atualizado com sucesso !!"
+    try:
+        service.updateCustomer(customer_id, customer)
+        return "Cliente atualizado com sucesso !!"
+    except:
+        print('TESTE')
+        return HTTPStatus.UNPROCESSABLE_ENTITY
 
 @router.delete('/remove/{customer_id}', status_code=HTTPStatus.OK)
 def removeCustomer(customer_id: int):

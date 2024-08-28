@@ -1,3 +1,4 @@
+import json
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
@@ -5,6 +6,7 @@ from utils.connDB import ConnectDB
 from utils.libs import Libs
 from schemas.customerSchema import CustomerSchema, CustomerUpdate
 from entities.customerEntity import CustomerEntity
+from schemas.articleSchema import ArticlePublic
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
@@ -47,6 +49,12 @@ class CustomerService:
 
     def createCustomer(self, customer: CustomerSchema):
         try:
+            if 'article' in customer:
+                customer.article = [
+                    article.dict() for article in customer.article
+                ]
+        
+            customer.article = json.dumps(customer.article)
             customer_entity = CustomerEntity(name=customer.name, article=customer.article)
             session.add(customer_entity)
             session.commit()
