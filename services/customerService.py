@@ -49,12 +49,7 @@ class CustomerService:
 
     def createCustomer(self, customer: CustomerSchema):
         try:
-            if 'article' in customer:
-                customer.article = [
-                    article.dict() for article in customer.article
-                ]
-        
-            customer.article = json.dumps(customer.article)
+            customer = self.schemaForDict(customer)
             customer_entity = CustomerEntity(name=customer.name, article=customer.article)
             session.add(customer_entity)
             session.commit()
@@ -92,3 +87,12 @@ class CustomerService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+    def schemaForDict(self, customer: CustomerSchema):
+        if customer.article and isinstance(customer.article, list):
+            customer.article = [
+                article.dict() if isinstance(article, ArticlePublic) else article
+                for article in customer.article
+            ]
+
+        return customer
