@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
 	`id`               INT auto_increment NOT NULL,
 	`code`             VARCHAR(100) NOT NULL,
 	`weight_per_piece` FLOAT NOT NULL,
-	`customer_id`      INT NOT NULL,
 	`total_weight`     FLOAT NOT NULL,
-	`wire_id`          VARCHAR(100) NOT NULL,
+  `article` 				 JSON NOT NULL,
+  `wires` 					 JSON NOT NULL,
 	`status` 					 VARCHAR(100) NOT NULL DEFAULT 'open',
   `date_closed` 		 DATE DEFAULT NULL,
 	CONSTRAINT order_of_operation_pk PRIMARY KEY (`id`)

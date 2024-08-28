@@ -37,7 +37,6 @@ def updateCustomer(customer_id: int, customer: CustomerUpdate):
         service.updateCustomer(customer_id, customer)
         return "Cliente atualizado com sucesso !!"
     except:
-        print('TESTE')
         return HTTPStatus.UNPROCESSABLE_ENTITY
 
 @router.delete('/remove/{customer_id}', status_code=HTTPStatus.OK)

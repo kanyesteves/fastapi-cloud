@@ -4,6 +4,8 @@ from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationUpdate
+from schemas.articleSchema import ArticlePublic
+from schemas.wireSchema import WirePublic
 from entities.orderOfOperationEntity import OrderOfOperationEntity
 
 conn = ConnectDB()
@@ -24,10 +26,10 @@ class OrderOfOperationrService:
                     "id": op.id,
                     "code": op.code,
                     "weight_per_piece": op.weight_per_piece,
-                    "customer_id": op.customer_id,
                     "total_weight": op.total_weight,
-                    "wire_id": op.wire_id,
-                    "status": op.status
+                    "status": op.status,
+                    "article": op.article,
+                    "wires": op.wires
 
                 }
                 for op in all_ops
@@ -52,12 +54,14 @@ class OrderOfOperationrService:
 
     def createOP(self, op: OrderOfOperationSchema):
         try:
+            op = self.schemaForDict(op)
             op_entity = OrderOfOperationEntity(
                                         code=op.code, 
                                         weight_per_piece=op.weight_per_piece, 
-                                        customer_id=op.customer_id, 
+                                        article=op.article, 
                                         total_weight=op.total_weight, 
-                                        wire_id=op.wire_id)
+                                        wires=op.wires,
+                                        status=op.status)
             session.add(op_entity)
             session.commit()
         except SQLAlchemyError as er:
@@ -94,3 +98,18 @@ class OrderOfOperationrService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+    def schemaForDict(self, op: OrderOfOperationSchema):
+        if op.article and isinstance(op.article, list):
+            op.article = [
+                article.dict() if isinstance(article, ArticlePublic) else article
+                for article in op.article
+            ]
+        
+        if op.wires and isinstance(op.wires, list):
+            op.wires = [
+                wire.dict() if isinstance(wire, WirePublic) else wire
+                for wire in op.wires
+            ]
+
+        return op
