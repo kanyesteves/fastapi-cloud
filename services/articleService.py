@@ -23,7 +23,7 @@ class ArticleService:
                 {
                     "id": article.id,
                     "name": article.name,
-                    "description": article.description,
+                    "description": article.description
                 }
                 for article in all_articles
             ]

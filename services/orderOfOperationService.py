@@ -30,7 +30,6 @@ class OrderOfOperationrService:
                     "status": op.status,
                     "article": op.article,
                     "wires": op.wires
-
                 }
                 for op in all_ops
             ]

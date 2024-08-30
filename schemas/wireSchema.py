@@ -17,6 +17,7 @@ class WirePublic(BaseModel):
     id: int
     name: str
     description: str
+    percentage: Optional[int] = None
 
 class WireList(BaseModel):
     wires: List[WirePublic]
