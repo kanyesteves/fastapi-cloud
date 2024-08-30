@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`wires` (
 	`id`          INT auto_increment NOT NULL,
 	`name`        VARCHAR(100) NOT NULL,
 	`description` VARCHAR(500) NULL,
+	`percentage`  INT DEFAULT NULL,
 	CONSTRAINT wires_pk PRIMARY KEY (`id`)
 	CONSTRAINT wires_unique UNIQUE KEY (`name`)
 )

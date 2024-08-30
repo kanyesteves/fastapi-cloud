@@ -6,7 +6,6 @@ class ArticleSchema(BaseModel):
     name: str
     description: str
 
-
 class ArticleResponseModel(ArticleSchema):
     id: int
 
