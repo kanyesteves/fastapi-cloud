@@ -8,7 +8,6 @@ class OrderOfOperationSchema(BaseModel):
     code: str
     weight_per_piece: float
     total_weight: float
-    status: str
     article: ArticlePublic
     wires: List[WirePublic]
 

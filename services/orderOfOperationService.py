@@ -99,10 +99,9 @@ class OrderOfOperationrService:
             session.close()
 
     def schemaForDict(self, op: OrderOfOperationSchema):
-        if op.article and isinstance(op.article, list):
+        if op.article:
             op.article = [
-                article.dict() if isinstance(article, ArticlePublic) else article
-                for article in op.article
+                op.article.dict() if isinstance(op.article, ArticlePublic) else op.article
             ]
         
         if op.wires and isinstance(op.wires, list):
