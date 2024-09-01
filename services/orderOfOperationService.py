@@ -60,7 +60,7 @@ class OrderOfOperationrService:
                                         article=op.article, 
                                         total_weight=op.total_weight, 
                                         wires=op.wires,
-                                        status=op.status)
+                                        status='open')
             session.add(op_entity)
             session.commit()
         except SQLAlchemyError as er:
