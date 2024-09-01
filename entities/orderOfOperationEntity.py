@@ -1,4 +1,4 @@
-from sqlalchemy import String, Float, Date, JSON
+from sqlalchemy import String, Float, Date, JSON, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -12,10 +12,12 @@ class OrderOfOperationEntity(OrderOfOperationBase):
     code:              Mapped[str]            = mapped_column(String(200))
     weight_per_piece:  Mapped[float]          = mapped_column(Float)
     total_weight:      Mapped[float]          = mapped_column(Float)
+    total_pieces:      Mapped[int]            = mapped_column(Integer)
     status:            Mapped[str]            = mapped_column(String(20))
     date_closed:       Mapped[str]            = mapped_column(Date)
     article:           Mapped[dict]           = mapped_column(JSON)
     wires:             Mapped[dict]           = mapped_column(JSON)
+    
 
 
     def __repr__(self):

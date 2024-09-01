@@ -27,6 +27,7 @@ class OrderOfOperationrService:
                     "code": op.code,
                     "weight_per_piece": op.weight_per_piece,
                     "total_weight": op.total_weight,
+                    "total_pieces": op.total_pieces,
                     "status": op.status,
                     "article": op.article,
                     "wires": op.wires
@@ -59,6 +60,7 @@ class OrderOfOperationrService:
                                         weight_per_piece=op.weight_per_piece, 
                                         article=op.article, 
                                         total_weight=op.total_weight, 
+                                        total_pieces=op.total_pieces, 
                                         wires=op.wires,
                                         status='open')
             session.add(op_entity)
