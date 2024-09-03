@@ -36,10 +36,10 @@ def updateOP(op_id: int, op: OrderOfOperationUpdate):
     service.updateOP(op_id, op)
     return "Order de operação atualizado com sucesso !!"
 
-@router.delete('/remove/{op_id}', status_code=HTTPStatus.OK)
+@router.put('/close/{op_id}', status_code=HTTPStatus.OK)
 def removeOP(op_id: int):
     try: 
-        service.deleteOP(op_id)
-        return "Order de operação removido com sucesso !!"
+        service.closeOP(op_id)
+        return "Order de operação fechada com sucesso !!"
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY

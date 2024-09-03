@@ -86,12 +86,12 @@ class OrderOfOperationrService:
         finally:
             session.close()
 
-    def deleteOP(self, id):
+    def closeOP(self, id):
         try:
             select_query = select(OrderOfOperationEntity).filter_by(id=id)
             ops = session.execute(select_query).fetchall()
             for op in ops:
-                session.delete(op[0])
+                setattr(op[0], 'status', 'closed')
 
             session.commit()
         except SQLAlchemyError as er:
