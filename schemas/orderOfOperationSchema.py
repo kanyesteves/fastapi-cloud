@@ -1,3 +1,4 @@
+from datetime import date
 from pydantic import BaseModel
 from typing import List, Optional
 from schemas.articleSchema import ArticlePublic
@@ -10,7 +11,6 @@ class OrderOfOperationSchema(BaseModel):
     total_weight: float
     total_pieces: Optional[int] = None
     status: Optional[str] = None
-    date_closed: Optional[str] = None
     article: ArticlePublic
     wires: List[WirePublic]
 
@@ -34,7 +34,7 @@ class OrderOfOperationPublic(BaseModel):
     total_weight: float
     status: str
     total_pieces: Optional[int] = None
-    date_closed: Optional[str] = None
+    date_closed: Optional[date] = None
     article: ArticlePublic
     wires: List[WirePublic]
 

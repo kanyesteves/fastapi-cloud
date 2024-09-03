@@ -1,3 +1,4 @@
+from datetime import datetime
 from utils.libs import Libs
 from sqlalchemy import select
 from utils.connDB import ConnectDB
@@ -92,6 +93,7 @@ class OrderOfOperationrService:
             ops = session.execute(select_query).fetchall()
             for op in ops:
                 setattr(op[0], 'status', 'closed')
+                setattr(op[0], 'date_closed', datetime.now())
 
             session.commit()
         except SQLAlchemyError as er:
