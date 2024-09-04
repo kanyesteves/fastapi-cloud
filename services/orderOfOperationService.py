@@ -1,6 +1,6 @@
 from datetime import datetime
 from utils.libs import Libs
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
@@ -20,6 +20,33 @@ class OrderOfOperationrService:
     def getAllOPs(self):
         try:
             select_query = select(OrderOfOperationEntity)
+            all_ops = session.execute(select_query).fetchall()
+            all_ops = [op[0] for op in all_ops]
+            all_ops = [
+                {
+                    "id": op.id,
+                    "code": op.code,
+                    "weight_per_piece": op.weight_per_piece,
+                    "total_weight": op.total_weight,
+                    "total_pieces": op.total_pieces,
+                    "status": op.status,
+                    "article": op.article,
+                    "wires": op.wires
+                }
+                for op in all_ops
+            ]
+            return all_ops
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+    
+    def getAllOpenAndInProgress(self):
+        try:
+            select_query = select(OrderOfOperationEntity).filter(
+                OrderOfOperationEntity.status.in_(['open', 'in_progress'])
+            )
             all_ops = session.execute(select_query).fetchall()
             all_ops = [op[0] for op in all_ops]
             all_ops = [

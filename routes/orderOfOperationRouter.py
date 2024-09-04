@@ -14,6 +14,14 @@ def getAllOPs():
         return ops
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
+    
+@router.get('/getAllOpenAndInProgress', status_code=HTTPStatus.OK)
+def getAllOpenAndInProgress():
+    try: 
+        ops = service.getAllOpenAndInProgress()
+        return ops
+    except:
+        return HTTPStatus.UNPROCESSABLE_ENTITY
 
 @router.get('/{op_id}', status_code=HTTPStatus.OK, response_model=OrderOfOperationPublic)
 def getOPById(op_id: int):
