@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`teares` (
 	`id`     INT auto_increment NOT NULL,
 	`name`   VARCHAR(100) NOT NULL,
 	`model`  VARCHAR(100) NOT NULL,
-	`status` BOOL DEFAULT true NOT NULL,
+	`status` TINYINT(1) NOT NULL DEFAULT '0',
 	CONSTRAINT teares_pk PRIMARY KEY (`id`),
 	CONSTRAINT teares_unique UNIQUE KEY (`name`)
 )
@@ -41,7 +41,7 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-ALTER TABLE volatex.`order_of_operation` ADD CONSTRAINT order_of_operation_unique UNIQUE KEY (code);
+ALTER TABLE `volatex`.`order_of_operation` ADD CONSTRAINT order_of_operation_unique UNIQUE KEY (code);
 
 CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
 	`id`      INT auto_increment NOT NULL,
@@ -88,6 +88,24 @@ CREATE TABLE IF NOT EXISTS `volatex`.`articles` (
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `volatex`.`productions` (
+	`id` 						 INT auto_increment NOT NULL,
+	`code_per_piece` INT DEFAULT 0 NOT NULL,
+	`weight` 				 FLOAT NOT NULL,
+	`review` 				 VARCHAR(200) NOT NULL,
+  `invoiced` 			 TINYINT(1) NOT NULL DEFAULT '0',
+  `labeled_item` 	 TINYINT(1) NOT NULL DEFAULT '0',
+	`date` 					 DATE NOT NULL,
+	`tear` 					 JSON NOT NULL,
+	`op` 						 JSON NOT NULL,
+	`operator` 			 JSON NOT NULL,
+	CONSTRAINT productions_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 
