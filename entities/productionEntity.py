@@ -12,7 +12,6 @@ class ProductionEntity(ProductionBase):
     code_per_piece:    Mapped[int]            = mapped_column(Integer)
     weight:            Mapped[float]          = mapped_column(Float)
     review:            Mapped[str]            = mapped_column(String(200))
-    labeled_item:      Mapped[bool]           = mapped_column(Boolean)
     invoiced:          Mapped[bool]           = mapped_column(Boolean)
     date:              Mapped[str]            = mapped_column(Date)
     tear:              Mapped[dict]           = mapped_column(JSON)

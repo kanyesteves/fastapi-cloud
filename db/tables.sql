@@ -95,7 +95,6 @@ CREATE TABLE IF NOT EXISTS `volatex`.`productions` (
 	`weight` 				 FLOAT NOT NULL,
 	`review` 				 VARCHAR(200) NOT NULL,
   `invoiced` 			 TINYINT(1) NOT NULL DEFAULT '0',
-  `labeled_item` 	 TINYINT(1) NOT NULL DEFAULT '0',
 	`date` 					 DATE NOT NULL,
 	`tear` 					 JSON NOT NULL,
 	`op` 						 JSON NOT NULL,

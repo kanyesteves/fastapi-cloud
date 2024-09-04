@@ -9,7 +9,6 @@ class ProductionSchema(BaseModel):
     code_per_piece: int
     weight: float
     review: str
-    labeled_item: bool
     date: date
     tear: TearPublic
     op: OrderOfOperationPublic
@@ -32,7 +31,6 @@ class ProductionPublic(BaseModel):
     code_per_piece: int
     weight: float
     review: str
-    labeled_item: bool
     invoiced: bool
     date: date
     tear: TearPublic
