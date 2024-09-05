@@ -1,4 +1,5 @@
 from schemas.productionSchema import ProductionSchema, ProductionPublic, ProductionUpdate
+from schemas.orderOfOperationSchema import OrderOfOperationPublic
 from services.productionService import ProductionService
 from fastapi import APIRouter
 from http import HTTPStatus
@@ -12,6 +13,14 @@ def getAllRecords():
     try: 
         records = service.getAllRecords()
         return records
+    except:
+        return HTTPStatus.UNPROCESSABLE_ENTITY
+
+@router.post('/getAllRecordsByOp', status_code=HTTPStatus.OK)
+def getAllRecordsByOp(op: OrderOfOperationPublic):
+    try:
+        records_by_op = service.getAllRecordsByOp(op)
+        return records_by_op
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
 

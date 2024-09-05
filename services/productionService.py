@@ -1,6 +1,6 @@
 from datetime import datetime
 from utils.libs import Libs
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
@@ -35,6 +35,33 @@ class ProductionService:
                 "operator": record.operator,
                 "op": record.op
                 }
+                for record in all_records
+            ]
+            return all_records
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+    def getAllRecordsByOp(self, op: OrderOfOperationPublic):
+        try:
+            op = self.schemaForDict_(op)
+            select_query = select(ProductionEntity).filter_by(op=op).order_by(desc(ProductionEntity.code_per_piece)).limit(1)
+            all_records = session.execute(select_query).fetchall()
+            all_records = [record[0] for record in all_records]
+            all_records = [
+            {
+                "id": record.id,
+                "code_per_pice": record.code_per_piece,
+                "weight": record.weight,
+                "review": record.review,
+                "invoiced": record.invoiced,
+                "date": record.date,
+                "tear": record.tear,
+                "operator": record.operator,
+                "op": record.op
+            }
                 for record in all_records
             ]
             return all_records
@@ -89,6 +116,10 @@ class ProductionService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+    def schemaForDict_(self, op: OrderOfOperationPublic):
+        if op:
+            op = op.dict() if isinstance(op, OrderOfOperationPublic) else op
 
     def schemaForDict(self, record: ProductionSchema):
         if record.tear:
