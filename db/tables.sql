@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
 	`total_weight`     FLOAT NOT NULL,
   `article` 				 JSON NOT NULL,
   `wires` 					 JSON NOT NULL,
+  `customer` 				 JSON NOT NULL,
+  `label_item` 			 TINYINT(1) NOT NULL DEFAULT '0',
 	`status` 					 VARCHAR(100) NOT NULL DEFAULT 'open',
   `date_closed` 		 DATE DEFAULT NULL,
 	`total_pieces` 		 INT DEFAULT '0',

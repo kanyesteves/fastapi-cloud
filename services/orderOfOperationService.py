@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationUpdate
 from schemas.articleSchema import ArticlePublic
 from schemas.wireSchema import WirePublic
+from schemas.customerSchema import CustomerPublic
 from entities.orderOfOperationEntity import OrderOfOperationEntity
 
 conn = ConnectDB()
@@ -30,6 +31,8 @@ class OrderOfOperationrService:
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
                     "status": op.status,
+                    "label_item": op.label_item,
+                    "customer": op.customer,
                     "article": op.article,
                     "wires": op.wires
                 }
@@ -57,6 +60,8 @@ class OrderOfOperationrService:
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
                     "status": op.status,
+                    "label_item": op.label_item,
+                    "customer": op.customer,
                     "article": op.article,
                     "wires": op.wires
                 }
@@ -84,11 +89,13 @@ class OrderOfOperationrService:
         try:
             op = self.schemaForDict(op)
             op_entity = OrderOfOperationEntity(
-                                        code=op.code, 
-                                        weight_per_piece=op.weight_per_piece, 
-                                        article=op.article, 
-                                        total_weight=op.total_weight, 
-                                        total_pieces=op.total_pieces, 
+                                        code=op.code,
+                                        weight_per_piece=op.weight_per_piece,
+                                        label_item=op.label_item,
+                                        customer=op.customer,
+                                        article=op.article,
+                                        total_weight=op.total_weight,
+                                        total_pieces=op.total_pieces,
                                         wires=op.wires,
                                         status='open')
             session.add(op_entity)
@@ -130,6 +137,9 @@ class OrderOfOperationrService:
             session.close()
 
     def schemaForDict(self, op: OrderOfOperationSchema):
+        if op.customer:
+            op.customer = op.customer.dict() if isinstance(op.customer, CustomerPublic) else op.customer
+
         if op.article:
             op.article = op.article.dict() if isinstance(op.article, ArticlePublic) else op.article
         

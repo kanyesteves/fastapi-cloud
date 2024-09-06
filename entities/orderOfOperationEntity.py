@@ -1,4 +1,4 @@
-from sqlalchemy import String, Float, Date, JSON, Integer
+from sqlalchemy import String, Float, Date, JSON, Integer, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -15,6 +15,8 @@ class OrderOfOperationEntity(OrderOfOperationBase):
     total_pieces:      Mapped[int]            = mapped_column(Integer)
     status:            Mapped[str]            = mapped_column(String(20))
     date_closed:       Mapped[str]            = mapped_column(Date)
+    customer:          Mapped[dict]           = mapped_column(JSON)
+    label_item:        Mapped[bool]           = mapped_column(Boolean, default=False)
     article:           Mapped[dict]           = mapped_column(JSON)
     wires:             Mapped[dict]           = mapped_column(JSON)
     
