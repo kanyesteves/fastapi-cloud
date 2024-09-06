@@ -5,7 +5,7 @@ from schemas.userSchema import UserPublic
 class GroupSchema(BaseModel):
     name: str
     users: List[UserPublic]
-    permissions: str
+    permissions: List[dict]
 
 class GroupResponseModel(GroupSchema):
     id: int
@@ -13,14 +13,14 @@ class GroupResponseModel(GroupSchema):
 class GroupUpdate(BaseModel):
     name:   Optional[str] = None
     users: Optional[List[UserPublic]] = None
-    permissions: Optional[str] = None
+    permissions: Optional[List[dict]] = None
     
 
 class GroupPublic(BaseModel):
     id: int
     name: str
     users: Optional[List[UserPublic]] = None
-    permissions: Optional[str] = None
+    permissions: Optional[List[dict]] = None
 
 class GroupList(BaseModel):
     groups: List[GroupPublic]

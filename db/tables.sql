@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`groups` (
 	`id` 				  INT auto_increment NOT NULL,
 	`name` 			  VARCHAR(100) NOT NULL,
 	`users` 			JSON NOT NULL,
-	`permissions` VARCHAR(200) NOT NULL,
+	`permissions` JSON NOT NULL,
 	CONSTRAINT group_pk PRIMARY KEY (id)
 )
 ENGINE=InnoDB

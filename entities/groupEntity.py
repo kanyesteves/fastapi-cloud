@@ -6,12 +6,12 @@ class GroupBase(DeclarativeBase):
     pass
 
 class GroupEntity(GroupBase):
-    __tablename__ = 'group'
+    __tablename__ = 'groups'
 
     id:             Mapped[int]  = mapped_column(primary_key=True, autoincrement=True)
     name:           Mapped[str]  = mapped_column(String(50))
     users:          Mapped[dict] = mapped_column(JSON)
-    permissions:    Mapped[str]  = mapped_column(String(200))
+    permissions:    Mapped[str]  = mapped_column(JSON)
 
     def __repr__(self):
         return f"GroupModel(f{self.id=}, {self.name=})"
