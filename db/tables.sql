@@ -107,6 +107,17 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE IF NOT EXISTS `volatex`.`groups` (
+	`id` 				  INT auto_increment NOT NULL,
+	`name` 			  VARCHAR(100) NOT NULL,
+	`users` 			JSON NOT NULL,
+	`permissions` VARCHAR(200) NOT NULL,
+	CONSTRAINT group_pk PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
 
 
 

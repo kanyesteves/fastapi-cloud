@@ -19,4 +19,4 @@ class CustomerPublic(BaseModel):
     article: Optional[List[ArticlePublic]] = None
 
 class CustomerList(BaseModel):
-    operators: List[CustomerPublic]
+    customers: List[CustomerPublic]

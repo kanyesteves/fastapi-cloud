@@ -21,6 +21,7 @@ def create_app():
     from routes import wireRouter
     from routes import articleRouter
     from routes import productionRouter
+    from routes import groupRouter
 
     app.include_router(userRouter.router)
     app.include_router(tearRouter.router)
@@ -30,5 +31,6 @@ def create_app():
     app.include_router(wireRouter.router)
     app.include_router(productionRouter.router)
     app.include_router(articleRouter.router)
+    app.include_router(groupRouter.router)
 
     return app
