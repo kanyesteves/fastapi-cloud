@@ -10,7 +10,6 @@ class GroupEntity(GroupBase):
 
     id:             Mapped[int]  = mapped_column(primary_key=True, autoincrement=True)
     name:           Mapped[str]  = mapped_column(String(50))
-    users:          Mapped[dict] = mapped_column(JSON)
     permissions:    Mapped[str]  = mapped_column(JSON)
 
     def __repr__(self):

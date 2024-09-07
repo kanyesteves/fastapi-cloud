@@ -119,5 +119,32 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
 
+--------- Tabelas de Relacionamento ---------
+
+CREATE TABLE IF NOT EXISTS `volatex`.`groups_has_users` (
+	`id`       INT auto_increment NOT NULL,
+	`group_id` INT NOT NULL,
+	`user_id`  INT NOT NULL,
+	CONSTRAINT `groups_has_users_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `groups_has_users_groups_FK` FOREIGN KEY (`group_id`) REFERENCES `volatex`.`groups`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `groups_has_users_users_FK`  FOREIGN KEY (`user_id`)  REFERENCES `volatex`.`users`(`id`)  ON DELETE CASCADE ON UPDATE CASCADE
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `volatex`.`customers_has_articles` (
+	`id` 					INT auto_increment NOT NULL,
+	`customer_id` INT NOT NULL,
+	`article_id`  INT NOT NULL,
+	CONSTRAINT `customers_has_articles_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `customers_has_articles_customers_FK` FOREIGN KEY (`customer_id`) REFERENCES `volatex`.`customers`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `customers_has_articles_articles_FK`  FOREIGN KEY (`article_id`)  REFERENCES `volatex`.`articles`(`id`)  ON DELETE CASCADE ON UPDATE CASCADE
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
+
 
 
