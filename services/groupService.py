@@ -1,12 +1,12 @@
-import json
-from sqlalchemy import select
-from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy.exc import SQLAlchemyError
-from utils.connDB import ConnectDB
 from utils.libs import Libs
-from schemas.groupSchema import GroupSchema, GroupUpdate
+from sqlalchemy import select
+from utils.connDB import ConnectDB
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import Session, sessionmaker
 from entities.groupEntity import GroupEntity
-from schemas.userSchema import UserPublic
+from schemas.groupSchema import GroupSchema, GroupUpdate
+from entities.groupHasUsersEntity import GroupHasUsersEntity
+from entities.userEntity import UserEntity
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
@@ -25,7 +25,7 @@ class GroupService:
                 {
                     "id": group.id,
                     "name": group.name,
-                    "users": group.users,
+                    "users": self.getUsersHasGroup(group.id),
                     "permissions": group.permissions,
                 }
                 for group in all_groups
@@ -50,10 +50,16 @@ class GroupService:
 
     def createGroup(self, group: GroupSchema):
         try:
-            group = self.schemaForDict(group)
-            group_entity = GroupEntity(name=group.name, users=group.users, permissions=group.permissions)
+            group_entity = GroupEntity(name=group.name, permissions=group.permissions)
             session.add(group_entity)
             session.commit()
+
+            last_id = group_entity.id
+            for user_id in group.users:
+                group_has_user_entity = GroupHasUsersEntity(group_id=last_id, user_id=user_id)
+                session.add(group_has_user_entity)
+                session.commit()
+
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")
@@ -62,6 +68,7 @@ class GroupService:
 
     def updateGroup(self, id, groupSchema: GroupUpdate):
         try:
+            self.updateUsersHasGroup(id, groupSchema.users)
             select_query = select(GroupEntity).filter_by(id=id)
             groups = session.execute(select_query).fetchall()
             for group in groups:
@@ -89,11 +96,46 @@ class GroupService:
         finally:
             session.close()
 
-    def schemaForDict(self, group: GroupSchema):
-        if group.users and isinstance(group.users, list):
-            group.users = [
-                user.dict() if isinstance(user, UserPublic) else user
-                for user in group.users
-            ]
+    def updateUsersHasGroup(self, group_id, users_id):
+        try:
+            select_query = select(GroupHasUsersEntity).filter_by(group_id=group_id)
+            group_has_users = session.execute(select_query).fetchall()
+            group_has_users = [group_has_user[0] for group_has_user in group_has_users]
+            for group_has_user in group_has_users:
+                for user_id in users_id:
+                    print(f'lista do front: {user_id}')
+                    print(f'lista do banco: {group_has_user.user_id}')
+                        # session.delete(group_has_user[0])
 
-        return group
+            session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+
+    def getUsersHasGroup(self, group_id):
+        try:
+            select_query = (
+                select(UserEntity)
+                .join(GroupHasUsersEntity, UserEntity.id == GroupHasUsersEntity.user_id)
+                .filter(GroupHasUsersEntity.group_id == group_id)
+            )
+            users = session.execute(select_query).fetchall()
+            users = [user[0] for user in users]
+            users = [
+                {
+                    "id": user.id,
+                    "name": user.name,
+                    "email": user.email,
+                    "office": user.office,
+                }
+                for user in users
+            ]
+            return users
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()

@@ -24,6 +24,14 @@ def getGroupById(group_id: int):
     except:
         return HTTPStatus.NOT_FOUND
     
+@router.get('/getUsersHasGroup/{group_id}', status_code=HTTPStatus.OK)
+def getUsersHasGroup(group_id: int):
+    try: 
+        group = service.getUsersHasGroup(group_id)
+        return group
+    except:
+        return HTTPStatus.NOT_FOUND
+    
 @router.post('/register', status_code=HTTPStatus.CREATED)
 def createGroup(group: GroupSchema):
     try: 

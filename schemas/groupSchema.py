@@ -4,6 +4,7 @@ from schemas.userSchema import UserPublic
 
 class GroupSchema(BaseModel):
     name: str
+    users: List[int]
     permissions: List[dict]
 
 class GroupResponseModel(GroupSchema):
@@ -11,6 +12,7 @@ class GroupResponseModel(GroupSchema):
 
 class GroupUpdate(BaseModel):
     name:   Optional[str] = None
+    users:  List[int]
     permissions: Optional[List[dict]] = None
     
 
