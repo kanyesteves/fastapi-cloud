@@ -6,7 +6,6 @@ from utils.connDB import ConnectDB
 from utils.libs import Libs
 from schemas.customerSchema import CustomerSchema, CustomerUpdate
 from entities.customerEntity import CustomerEntity
-from schemas.articleSchema import ArticlePublic
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
@@ -25,7 +24,7 @@ class CustomerService:
                 {
                     "id": customer.id,
                     "name": customer.name,
-                    "article": customer.article,
+                    "description": customer.description,
                 }
                 for customer in all_customers
             ]
@@ -49,8 +48,7 @@ class CustomerService:
 
     def createCustomer(self, customer: CustomerSchema):
         try:
-            customer = self.schemaForDict(customer)
-            customer_entity = CustomerEntity(name=customer.name, article=customer.article)
+            customer_entity = CustomerEntity(name=customer.name, description=customer.description)
             session.add(customer_entity)
             session.commit()
         except SQLAlchemyError as er:
@@ -87,12 +85,3 @@ class CustomerService:
             print(f"ERRO: {er}")
         finally:
             session.close()
-
-    def schemaForDict(self, customer: CustomerSchema):
-        if customer.article and isinstance(customer.article, list):
-            customer.article = [
-                article.dict() if isinstance(article, ArticlePublic) else article
-                for article in customer.article
-            ]
-
-        return customer
