@@ -1,5 +1,5 @@
 from utils.libs import Libs
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from utils.connDB import ConnectDB
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
@@ -101,11 +101,23 @@ class GroupService:
             select_query = select(GroupHasUsersEntity).filter_by(group_id=group_id)
             group_has_users = session.execute(select_query).fetchall()
             group_has_users = [group_has_user[0] for group_has_user in group_has_users]
-            for group_has_user in group_has_users:
-                for user_id in users_id:
-                    print(f'lista do front: {user_id}')
-                    print(f'lista do banco: {group_has_user.user_id}')
-                        # session.delete(group_has_user[0])
+
+            existing_user_ids = { relation.user_id for relation in group_has_users }
+            new_user_ids = set(users_id)
+
+            users_to_remove = existing_user_ids - new_user_ids
+            users_to_add = new_user_ids - existing_user_ids
+
+            if users_to_remove:
+                delete_query = delete(GroupHasUsersEntity).where(
+                    GroupHasUsersEntity.group_id == group_id,
+                    GroupHasUsersEntity.user_id.in_(users_to_remove)
+                )
+                session.execute(delete_query)
+
+            for user_id in users_to_add:
+                new_relation = GroupHasUsersEntity(group_id=group_id, user_id=user_id)
+                session.add(new_relation)
 
             session.commit()
         except SQLAlchemyError as er:
