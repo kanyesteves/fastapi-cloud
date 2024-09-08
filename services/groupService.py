@@ -96,11 +96,25 @@ class GroupService:
         finally:
             session.close()
 
+    def deleteRelationWithUsers(self, group_id):
+        try:
+            delete_query = delete(GroupHasUsersEntity).where(
+                GroupHasUsersEntity.group_id == group_id
+            )
+            session.execute(delete_query)
+
+            session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
     def updateUsersHasGroup(self, group_id, users_id):
         try:
             select_query = select(GroupHasUsersEntity).filter_by(group_id=group_id)
             group_has_users = session.execute(select_query).fetchall()
-            group_has_users = [group_has_user[0] for group_has_user in group_has_users]
+            group_has_users = [ group_has_user[0] for group_has_user in group_has_users ]
 
             existing_user_ids = { relation.user_id for relation in group_has_users }
             new_user_ids = set(users_id)
