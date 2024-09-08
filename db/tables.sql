@@ -132,13 +132,37 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `volatex`.`customers_has_articles` (
+CREATE TABLE IF NOT EXISTS `volatex`.`op_has_customer` (
 	`id` 					INT auto_increment NOT NULL,
-	`customer_id` INT NOT NULL,
+	`op_id` INT NOT NULL,
+	`customer_id`  INT NOT NULL,
+	CONSTRAINT `op_has_customer_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `op_has_customer_order_of_operation_FK` FOREIGN KEY (`op_id`) REFERENCES `volatex`.`order_of_operation`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `op_has_customer_customers_FK`  FOREIGN KEY (`customer_id`)  REFERENCES `volatex`.`customers`(`id`)  ON DELETE CASCADE ON UPDATE CASCADE
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `volatex`.`op_has_article` (
+	`id` 					INT auto_increment NOT NULL,
+	`op_id` INT NOT NULL,
 	`article_id`  INT NOT NULL,
-	CONSTRAINT `customers_has_articles_pk` PRIMARY KEY (`id`),
-	CONSTRAINT `customers_has_articles_customers_FK` FOREIGN KEY (`customer_id`) REFERENCES `volatex`.`customers`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT `customers_has_articles_articles_FK`  FOREIGN KEY (`article_id`)  REFERENCES `volatex`.`articles`(`id`)  ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT `op_has_article_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `op_has_article_order_of_operation_FK` FOREIGN KEY (`op_id`) REFERENCES `volatex`.`order_of_operation`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `op_has_article_articles_FK`  FOREIGN KEY (`article_id`)  REFERENCES `volatex`.`articles`(`id`)  ON DELETE CASCADE ON UPDATE CASCADE
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `volatex`.`op_has_wires` (
+	`id` 					INT auto_increment NOT NULL,
+	`op_id` INT NOT NULL,
+	`wire_id`  INT NOT NULL,
+	CONSTRAINT `op_has_wires_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `op_has_wires_order_of_operation_FK` FOREIGN KEY (`op_id`) REFERENCES `volatex`.`order_of_operation`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `op_has_wires_wires_FK`  FOREIGN KEY (`wire_id`)  REFERENCES `volatex`.`wires`(`id`)  ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
