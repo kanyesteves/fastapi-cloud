@@ -96,6 +96,8 @@ class GroupService:
         finally:
             session.close()
 
+# ----------------- Métodos de relacionamento
+
     def deleteRelationWithUsers(self, group_id):
         try:
             delete_query = delete(GroupHasUsersEntity).where(

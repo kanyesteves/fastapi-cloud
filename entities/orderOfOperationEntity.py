@@ -15,12 +15,7 @@ class OrderOfOperationEntity(OrderOfOperationBase):
     total_pieces:      Mapped[int]            = mapped_column(Integer)
     status:            Mapped[str]            = mapped_column(String(20))
     date_closed:       Mapped[str]            = mapped_column(Date)
-    customer:          Mapped[dict]           = mapped_column(JSON)
     label_item:        Mapped[bool]           = mapped_column(Boolean, default=False)
-    article:           Mapped[dict]           = mapped_column(JSON)
-    wires:             Mapped[dict]           = mapped_column(JSON)
-    
-
 
     def __repr__(self):
         return f"OrderOfOperationModel(f{self.id=}, {self.code=})"
