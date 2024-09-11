@@ -24,7 +24,6 @@ class WireService:
                     "id": wire.id,
                     "name": wire.name,
                     "description": wire.description,
-                    "percentage": wire.percentage
                 }
                 for wire in all_wires
             ]

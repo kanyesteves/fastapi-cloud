@@ -11,7 +11,6 @@ class WireEntity(WireBase):
     id:             Mapped[int]  = mapped_column(primary_key=True, autoincrement=True)
     name:           Mapped[str]  = mapped_column(String(50))
     description:    Mapped[str]  = mapped_column(String(500))
-    percentage:     Mapped[int]  = mapped_column(Integer)
 
     def __repr__(self):
         return f"WireModel(f{self.id=}, {self.name=})"

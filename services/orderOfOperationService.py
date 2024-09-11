@@ -281,7 +281,6 @@ class OrderOfOperationrService:
                     "id": wire.id,
                     "name": wire.name,
                     "description": wire.description,
-                    "percentage": wire.percentage,
                 }
                 for wire in wires
             ]
