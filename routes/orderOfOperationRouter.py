@@ -1,4 +1,4 @@
-from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationPublic, OrderOfOperationUpdate
+from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationUpdate
 from services.orderOfOperationService import OrderOfOperationrService
 from fastapi import APIRouter
 from http import HTTPStatus
@@ -47,7 +47,7 @@ def getWiresHasOp(op_id: int):
     except:
         return HTTPStatus.NOT_FOUND
 
-@router.get('/{op_id}', status_code=HTTPStatus.OK, response_model=OrderOfOperationPublic)
+@router.get('/{op_id}', status_code=HTTPStatus.OK)
 def getOPById(op_id: int):
     try: 
         op = service.getOPById(op_id)

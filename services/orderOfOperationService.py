@@ -80,8 +80,24 @@ class OrderOfOperationrService:
     def getOPById(self, id):
         try:
             select_query = select(OrderOfOperationEntity).filter_by(id=id)
-            op = session.execute(select_query).fetchall()
-            return op[0][0]
+            ops = session.execute(select_query).fetchall()
+            ops = [op[0] for op in ops]
+            op = [
+                {
+                    "id": op.id,
+                    "code": op.code,
+                    "weight_per_piece": op.weight_per_piece,
+                    "total_weight": op.total_weight,
+                    "total_pieces": op.total_pieces,
+                    "status": op.status,
+                    "label_item": op.label_item,
+                    "customer": self.getCustomerHasOp(op.id),
+                    "article": self.getArticleHasOp(op.id),
+                    "wires": self.getWiresHasOp(op.id)
+                }
+                for op in ops
+            ]
+            return op[0]
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")
@@ -169,7 +185,7 @@ class OrderOfOperationrService:
         existing_relation = session.execute(select_query).scalar()
 
         if not existing_relation:
-            new_relation = OpHasCustomerEntity(op_id=op_id, customer_id=customer_id)
+            new_relation = OpHasArticleEntity(op_id=op_id, article_id=article_id)
             session.add(new_relation)
             session.commit()
 
