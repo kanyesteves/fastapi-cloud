@@ -8,7 +8,7 @@ class OrderOfOperationSchema(BaseModel):
     total_weight: float
     total_pieces: Optional[int] = None
     status: Optional[str] = None
-    label_item: bool
+    label_item: Optional[bool] = None
     customer: int
     article: int
     wires: List[int]

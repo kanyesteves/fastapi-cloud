@@ -172,19 +172,25 @@ class OrderOfOperationrService:
 
 # ----------------- Métodos de relacionamento
     def updateCustomerHasOp(self, op_id, customer_id):
-        select_query = select(OpHasCustomerEntity).filter_by(op_id=op_id, customer_id=customer_id)
+        select_query = select(OpHasCustomerEntity).filter_by(op_id=op_id)
         existing_relation = session.execute(select_query).scalar()
 
-        if not existing_relation:
+        if existing_relation:
+            delete_query = delete(OpHasCustomerEntity).where(OpHasCustomerEntity.op_id == op_id)
+            session.execute(delete_query)
+
             new_relation = OpHasCustomerEntity(op_id=op_id, customer_id=customer_id)
             session.add(new_relation)
             session.commit()
 
     def updateArticleHasOp(self, op_id, article_id):
-        select_query = select(OpHasArticleEntity).filter_by(op_id=op_id, article_id=article_id)
+        select_query = select(OpHasArticleEntity).filter_by(op_id=op_id)
         existing_relation = session.execute(select_query).scalar()
 
-        if not existing_relation:
+        if existing_relation:
+            delete_query = delete(OpHasArticleEntity).where(OpHasArticleEntity.op_id == op_id)
+            session.execute(delete_query)
+
             new_relation = OpHasArticleEntity(op_id=op_id, article_id=article_id)
             session.add(new_relation)
             session.commit()
