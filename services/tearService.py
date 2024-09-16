@@ -1,10 +1,11 @@
-from sqlalchemy import select
+from sqlalchemy import select, and_
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from utils.connDB import ConnectDB
 from utils.libs import Libs
 from schemas.tearSchema import TearSchema, TearUpdate
 from entities.tearEntity import TearEntity
+from entities.programingHasTearEntity import ProgramingHasTearEntity
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
@@ -17,6 +18,37 @@ class TearService:
     def getAllTeares(self):
         try:
             select_query = select(TearEntity)
+            all_tear = session.execute(select_query).fetchall()
+            all_tear = [tear[0] for tear in all_tear]
+            all_tear = [
+                {
+                    "id": tear.id,
+                    "name": tear.name,
+                    "model": tear.model,
+                    "status": tear.status,
+                }
+                for tear in all_tear
+            ]
+            return all_tear
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+    def getAllTearesActiveAndNotUse(self):
+        try:
+            select_query = select(ProgramingHasTearEntity)
+            all_tear_relations = session.execute(select_query).fetchall()
+            all_tear_relations = [tear[0] for tear in all_tear_relations]
+            all_tear_relations = [
+                tear.tear_id for tear in all_tear_relations
+            ]
+
+            select_query = select(TearEntity).filter(and_(
+                TearEntity.status == True,
+                TearEntity.id.not_in(all_tear_relations)
+            ))
             all_tear = session.execute(select_query).fetchall()
             all_tear = [tear[0] for tear in all_tear]
             all_tear = [

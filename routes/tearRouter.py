@@ -15,6 +15,14 @@ def getAllTeares():
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
 
+@router.get('/getAllTearesActiveAndNotUse', status_code=HTTPStatus.OK)
+def getAllTearesActiveAndNotUse():
+    try:
+        teares = service.getAllTearesActiveAndNotUse()
+        return teares
+    except:
+        return HTTPStatus.UNPROCESSABLE_ENTITY
+
 @router.get('/{tear_id}', status_code=HTTPStatus.OK, response_model=TearPublic)
 def getTearById(tear_id: int):
     try: 
