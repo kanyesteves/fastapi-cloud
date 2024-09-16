@@ -23,30 +23,6 @@ def getAllOpenAndInProgress():
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
 
-@router.get('/getCustomerHasOp/{op_id}', status_code=HTTPStatus.OK)
-def getCustomerHasOp(op_id: int):
-    try:
-        customer_relation = service.getCustomerHasOp(op_id)
-        return customer_relation
-    except:
-        return HTTPStatus.NOT_FOUND
-
-@router.get('/getArticleHasOp/{op_id}', status_code=HTTPStatus.OK)
-def getArticleHasOp(op_id: int):
-    try:
-        article_relation = service.getArticleHasOp(op_id)
-        return article_relation
-    except:
-        return HTTPStatus.NOT_FOUND
-
-@router.get('/getWiresHasOp/{op_id}', status_code=HTTPStatus.OK)
-def getWiresHasOp(op_id: int):
-    try:
-        wires_relation = service.getWiresHasOp(op_id)
-        return wires_relation
-    except:
-        return HTTPStatus.NOT_FOUND
-
 @router.get('/{op_id}', status_code=HTTPStatus.OK)
 def getOPById(op_id: int):
     try: 
