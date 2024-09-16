@@ -30,6 +30,7 @@ class OrderOfOperationrService:
                 {
                     "id": op.id,
                     "code": op.code,
+                    "date_open": op.date_open,
                     "weight_per_piece": op.weight_per_piece,
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
@@ -59,6 +60,7 @@ class OrderOfOperationrService:
                 {
                     "id": op.id,
                     "code": op.code,
+                    "date_open": op.date_open,
                     "weight_per_piece": op.weight_per_piece,
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
@@ -86,6 +88,7 @@ class OrderOfOperationrService:
                 {
                     "id": op.id,
                     "code": op.code,
+                    "date_open": op.date_open,
                     "weight_per_piece": op.weight_per_piece,
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
@@ -112,6 +115,7 @@ class OrderOfOperationrService:
                                         label_item=op.label_item,
                                         total_weight=op.total_weight,
                                         total_pieces=op.total_pieces,
+                                        date_open=datetime.now(),
                                         status='open')
             session.add(op_entity)
             session.commit()

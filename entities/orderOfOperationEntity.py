@@ -15,6 +15,7 @@ class OrderOfOperationEntity(OrderOfOperationBase):
     total_pieces:      Mapped[int]            = mapped_column(Integer)
     status:            Mapped[str]            = mapped_column(String(20))
     date_closed:       Mapped[str]            = mapped_column(Date)
+    date_open:         Mapped[str]            = mapped_column(Date)
     label_item:        Mapped[bool]           = mapped_column(Boolean, default=False)
 
     def __repr__(self):

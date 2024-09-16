@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
   `label_item` 			 TINYINT(1) NOT NULL DEFAULT '0',
 	`status` 					 VARCHAR(100) NOT NULL DEFAULT 'open',
   `date_closed` 		 DATE DEFAULT NULL,
+  `date_open` 		   DATE DEFAULT NULL,
 	`total_pieces` 		 INT DEFAULT '0',
 	CONSTRAINT order_of_operation_pk PRIMARY KEY (`id`)
 )
