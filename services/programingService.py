@@ -168,7 +168,7 @@ class ProgramingService:
         try:
             select_query = (
                 select(OrderOfOperationEntity)
-                .join(ProgramingHasOpEntity, OrderOfOperationEntity.id == ProgramingHasOpEntity.tear_id)
+                .join(ProgramingHasOpEntity, OrderOfOperationEntity.id == ProgramingHasOpEntity.op_id)
                 .filter(ProgramingHasOpEntity.programing_id == programing_id)
             )
             ops = session.execute(select_query).fetchall()
