@@ -5,10 +5,8 @@ from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from schemas.productionSchema import ProductionSchema, ProductionUpdate
-from schemas.tearSchema import TearPublic
-from schemas.operatorSchema import OperatorPublic
-from schemas.orderOfOperationSchema import OrderOfOperationPublic
 from entities.productionEntity import ProductionEntity
+from entities.orderOfOperationEntity import OrderOfOperationEntity
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
@@ -44,16 +42,17 @@ class ProductionService:
         finally:
             session.close()
 
-    def getAllRecordsByOp(self, op: OrderOfOperationPublic):
+    def getAllRecordsByOp(self, op: str):
         try:
-            op = self.schemaForDict_(op)
-            select_query = select(ProductionEntity).filter_by(op=op).order_by(desc(ProductionEntity.code_per_piece)).limit(1)
+            select_query = select(ProductionEntity).filter_by(op=op).order_by(
+                desc(ProductionEntity.code_per_piece)
+            ).limit(1)
             all_records = session.execute(select_query).fetchall()
             all_records = [record[0] for record in all_records]
             all_records = [
             {
                 "id": record.id,
-                "code_per_pice": record.code_per_piece,
+                "code_per_piece": record.code_per_piece,
                 "weight": record.weight,
                 "review": record.review,
                 "invoiced": record.invoiced,
@@ -64,7 +63,7 @@ class ProductionService:
             }
                 for record in all_records
             ]
-            return all_records
+            return all_records[0]
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")
@@ -84,12 +83,11 @@ class ProductionService:
 
     def createRecord(self, record: ProductionSchema):
         try:
-            record = self.schemaForDict(record)
             record_entity = ProductionEntity(
                                     code_per_piece=record.code_per_piece, 
                                     weight=record.weight, 
                                     review=record.review, 
-                                    invoiced=record.invoiced,
+                                    invoiced=False,
                                     date=datetime.now(),
                                     tear=record.tear,
                                     op=record.op,
@@ -116,23 +114,6 @@ class ProductionService:
             print(f"ERRO: {er}")
         finally:
             session.close()
-
-    def schemaForDict_(self, op: OrderOfOperationPublic):
-        if op:
-            op = op.dict() if isinstance(op, OrderOfOperationPublic) else op
-
-    def schemaForDict(self, record: ProductionSchema):
-        if record.tear:
-            record.tear = record.tear.dict() if isinstance(record.tear, TearPublic) else record.tear
-
-        if record.op:
-            record.op = record.op.dict() if isinstance(record.op, OrderOfOperationPublic) else record.op
-
-        if record.operator:
-            record.operator = record.operator.dict() if isinstance(record.operator, OperatorPublic) else record.operator
-
-        return record
-
 
     def toInvoice(self, id):
         try:

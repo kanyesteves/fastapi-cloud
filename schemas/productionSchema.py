@@ -9,10 +9,9 @@ class ProductionSchema(BaseModel):
     code_per_piece: int
     weight: float
     review: str
-    date: date
-    tear: TearPublic
-    op: OrderOfOperationPublic
-    operator: OperatorPublic
+    tear: str
+    op: str
+    operator: str
 
 class ProductionResponseModel(ProductionSchema):
     id: int
@@ -22,9 +21,9 @@ class ProductionUpdate(BaseModel):
     weight: float
     review: str
     date: date
-    tear: TearPublic
-    op: OrderOfOperationPublic
-    operator: OperatorPublic
+    tear: str
+    op: str
+    operator: str
 
 class ProductionPublic(BaseModel):
     id: int
@@ -33,9 +32,9 @@ class ProductionPublic(BaseModel):
     review: str
     invoiced: bool
     date: date
-    tear: TearPublic
-    op: OrderOfOperationPublic
-    operator: OperatorPublic
+    tear: str
+    op: str
+    operator: str
 
 class ProductionList(BaseModel):
     productions: List[ProductionPublic]

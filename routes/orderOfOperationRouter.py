@@ -39,6 +39,11 @@ def createOP(op: OrderOfOperationSchema):
     except:
         return HTTPStatus.INTERNAL_SERVER_ERROR
 
+@router.put('/updateStatusForInProgress/{op}', status_code=HTTPStatus.OK)
+def updateStatusForInProgress(op: str):
+    service.updateStatusForInProgress(op)
+    return "Order de operação atualizado com sucesso !!"
+
 @router.put('/update/{op_id}', status_code=HTTPStatus.OK)
 def updateOP(op_id: int, op: OrderOfOperationUpdate):
     service.updateOP(op_id, op)
