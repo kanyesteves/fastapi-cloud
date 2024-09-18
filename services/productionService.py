@@ -94,6 +94,11 @@ class ProductionService:
                                     operator=record.operator)
             session.add(record_entity)
             session.commit()
+
+            if record.code_per_piece == 1:
+                session.query(OrderOfOperationEntity).filter(OrderOfOperationEntity.code == record.op).update({"status": "in_progress"})
+                session.commit()
+                
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")

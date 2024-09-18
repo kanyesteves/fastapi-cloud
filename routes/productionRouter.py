@@ -43,11 +43,3 @@ def createOP(record: ProductionSchema):
 def updateRecord(record_id: int, record: ProductionUpdate):
     service.updateRecord(record_id, record)
     return "Malha atualizada com sucesso !!"
-
-# @router.put('/close/{op_id}', status_code=HTTPStatus.OK)
-# def removeOP(op_id: int):
-#     try: 
-#         service.closeOP(op_id)
-#         return "Order de operação fechada com sucesso !!"
-#     except:
-#         return HTTPStatus.UNPROCESSABLE_ENTITY

@@ -140,17 +140,6 @@ class OrderOfOperationrService:
         finally:
             session.close()
 
-    def updateStatusForInProgress(self, op: str):
-        try:
-            session.query(OrderOfOperationEntity).filter(OrderOfOperationEntity.code == op).update({"status": "in_progress"})
-            session.commit()
-        except SQLAlchemyError as er:
-            session.rollback()
-            print(f"ERRO: {er}")
-        finally:
-            session.close()
-
-
     def updateOP(self, id, orderOfOperationsSchema: OrderOfOperationUpdate):
         try:
             self.updateCustomerHasOp(id, orderOfOperationsSchema.customer)
