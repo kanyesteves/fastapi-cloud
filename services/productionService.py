@@ -1,6 +1,6 @@
 from datetime import datetime
 from utils.libs import Libs
-from sqlalchemy import select, desc
+from sqlalchemy import select, desc, func, and_
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
@@ -129,6 +129,46 @@ class ProductionService:
                 setattr(op[0], 'date_closed', datetime.now())
 
             session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+    def getTotalWeight(self, op: str):
+        try:
+            query = select(func.sum(ProductionEntity.weight)).filter_by(op=op)
+            total_weight = session.execute(query).scalar()
+
+            if total_weight is None: 
+                total_weight = 0
+
+            return total_weight
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+    def getTotalPieces(self, op: str):
+        try:
+            total_count = (
+                session.query(func.count(ProductionEntity.id))
+                .filter(ProductionEntity.op == op)
+                .scalar()
+            )
+            return total_count
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+    def getTotalInvoiced(self, op: str):
+        try:
+            query = select(func.count()).filter_by(and_(op=op, invoiced=1))
+            totalInvoiced = session.execute(query).scalar()
+            return totalInvoiced
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")

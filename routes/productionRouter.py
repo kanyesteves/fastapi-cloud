@@ -13,7 +13,7 @@ def getAllRecords():
         records = service.getAllRecords()
         return records
     except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
+        return HTTPStatus.NOT_FOUND
 
 @router.get('/getAllRecordsByOp/{op}', status_code=HTTPStatus.OK)
 def getAllRecordsByOp(op: str):
@@ -21,7 +21,19 @@ def getAllRecordsByOp(op: str):
         records_by_op = service.getAllRecordsByOp(op)
         return records_by_op
     except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
+        return HTTPStatus.NOT_FOUND
+    
+@router.get('/getOpOptions/{op}', status_code=HTTPStatus.OK)
+def getOpOptions(op: str):
+    try:
+        op_options = {
+            "total_weight": service.getTotalWeight(op),
+            "total_pieces": service.getTotalPieces(op),
+            # "total_invoiced": service.getTotalInvoiced(op)
+        }
+        return op_options
+    except:
+        return HTTPStatus.NOT_FOUND
 
 @router.get('/{op_id}', status_code=HTTPStatus.OK, response_model=ProductionPublic)
 def getRecordById(record_id: int):
