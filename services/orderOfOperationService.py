@@ -34,6 +34,7 @@ class OrderOfOperationrService:
                     "weight_per_piece": op.weight_per_piece,
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
+                    "wire_porcentage": op.wire_porcentage,
                     "status": op.status,
                     "label_item": op.label_item,
                     "customer": self.getCustomerHasOp(op.id),
@@ -64,6 +65,7 @@ class OrderOfOperationrService:
                     "weight_per_piece": op.weight_per_piece,
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
+                    "wire_porcentage": op.wire_porcentage,
                     "status": op.status,
                     "label_item": op.label_item,
                     "customer": self.getCustomerHasOp(op.id),
@@ -92,6 +94,7 @@ class OrderOfOperationrService:
                     "weight_per_piece": op.weight_per_piece,
                     "total_weight": op.total_weight,
                     "total_pieces": op.total_pieces,
+                    "wire_porcentage": op.wire_porcentage,
                     "status": op.status,
                     "label_item": op.label_item,
                     "customer": self.getCustomerHasOp(op.id),
@@ -116,6 +119,7 @@ class OrderOfOperationrService:
                                         total_weight=op.total_weight,
                                         total_pieces=op.total_pieces,
                                         date_open=datetime.now(),
+                                        wire_porcentage=op.wire_porcentage,
                                         status='open')
             session.add(op_entity)
             session.commit()
@@ -173,6 +177,8 @@ class OrderOfOperationrService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+
 
 # ----------------- Métodos de relacionamento
     def updateCustomerHasOp(self, op_id, customer_id):

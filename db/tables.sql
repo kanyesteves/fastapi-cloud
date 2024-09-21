@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
   `date_closed` 		 DATE DEFAULT NULL,
   `date_open` 		   DATE DEFAULT NULL,
 	`total_pieces` 		 INT DEFAULT '0',
+	`wire_porcentage`  JSON NOT NULL,
 	CONSTRAINT order_of_operation_pk PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
