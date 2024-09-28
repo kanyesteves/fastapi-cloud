@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS `volatex`.`users` (
 	`password` VARCHAR(100) NOT NULL,
 	`office`   VARCHAR(100) NOT NULL,
 	`email`    VARCHAR(100) NULL,
-	CONSTRAINT users_pk PRIMARY KEY (`id`),
-	CONSTRAINT users_unique UNIQUE KEY (`name`)
+	CONSTRAINT `users_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `users_unique` UNIQUE KEY (`name`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS `volatex`.`teares` (
 	`name`   VARCHAR(100) NOT NULL,
 	`model`  VARCHAR(100) NOT NULL,
 	`status` TINYINT(1) NOT NULL DEFAULT '0',
-	CONSTRAINT teares_pk PRIMARY KEY (`id`),
-	CONSTRAINT teares_unique UNIQUE KEY (`name`)
+	CONSTRAINT `teares_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `teares_unique` UNIQUE KEY (`name`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
   `date_open` 		   DATE DEFAULT NULL,
 	`total_pieces` 		 INT DEFAULT '0',
 	`wire_porcentage`  JSON NOT NULL,
-	CONSTRAINT order_of_operation_pk PRIMARY KEY (`id`)
+	CONSTRAINT `order_of_operation_pk` PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
 	`id`      		INT auto_increment NOT NULL,
 	`name`    		VARCHAR(100) NOT NULL,
 	`description` VARCHAR(500) DEFAULT NULL,
-	CONSTRAINT customers_pk PRIMARY KEY (`id`),
+	CONSTRAINT `customers_pk` PRIMARY KEY (`id`),
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`operators` (
 	`name`   VARCHAR(100) NOT NULL,
 	`office` VARCHAR(100) NOT NULL,
 	`turn`   VARCHAR(100) NOT NULL,
-	CONSTRAINT operators_pk PRIMARY KEY (`id`)
+	CONSTRAINT `operators_pk` PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -71,8 +71,8 @@ CREATE TABLE IF NOT EXISTS `volatex`.`wires` (
 	`id`          INT auto_increment NOT NULL,
 	`name`        VARCHAR(100) NOT NULL,
 	`description` VARCHAR(500) NULL,
-	CONSTRAINT wires_pk PRIMARY KEY (`id`)
-	CONSTRAINT wires_unique UNIQUE KEY (`name`)
+	CONSTRAINT `wires_pk` PRIMARY KEY (`id`)
+	CONSTRAINT `wires_unique` UNIQUE KEY (`name`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -82,8 +82,8 @@ CREATE TABLE IF NOT EXISTS `volatex`.`articles` (
 	`id` 					INT auto_increment NOT NULL,
 	`name` 				VARCHAR(100) NOT NULL,
 	`description` VARCHAR(100) NULL,
-	CONSTRAINT articles_pk PRIMARY KEY (`id`),
-	CONSTRAINT articles_unique UNIQUE KEY (`name`)
+	CONSTRAINT `articles_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `articles_unique` UNIQUE KEY (`name`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -99,17 +99,32 @@ CREATE TABLE IF NOT EXISTS `volatex`.`productions` (
 	`tear` 					 JSON NOT NULL,
 	`op` 						 JSON NOT NULL,
 	`operator` 			 JSON NOT NULL,
-	CONSTRAINT productions_pk PRIMARY KEY (id)
+	CONSTRAINT `productions_pk` PRIMARY KEY (id)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE IF NOT EXISTS `volatex`.`invoicing` (
+	`id` 			 				INT auto_increment NOT NULL,
+	`records` 				JSON NOT NULL,
+	`customer` 				VARCHAR(100) NOT NULL,
+	`article`  				VARCHAR(100) NOT NULL,
+	`date` 						DATE NOT NULL,
+	`weight_per_wire` JSON NOT NULL,
+	`total_weight` 		FLOAT NOT NULL,
+	CONSTRAINT `invoicing_pk` PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
+
+
 CREATE TABLE IF NOT EXISTS `volatex`.`groups` (
 	`id` 				  INT auto_increment NOT NULL,
 	`name` 			  VARCHAR(100) NOT NULL,
 	`permissions` JSON NOT NULL,
-	CONSTRAINT group_pk PRIMARY KEY (id)
+	CONSTRAINT `group_pk` PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -118,7 +133,7 @@ COLLATE=utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `volatex`.`programing` (
 	`id` 	 INT auto_increment NOT NULL,
 	`name` VARCHAR(100) NOT NULL,
-	CONSTRAINT programing_pk PRIMARY KEY (id)
+	CONSTRAINT `programing_pk` PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4

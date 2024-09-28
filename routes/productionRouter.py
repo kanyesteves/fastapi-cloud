@@ -35,7 +35,7 @@ def getOpOptions(op: str):
     except:
         return HTTPStatus.NOT_FOUND
 
-@router.get('/{op_id}', status_code=HTTPStatus.OK, response_model=ProductionPublic)
+@router.get('/{record_id}', status_code=HTTPStatus.OK, response_model=ProductionPublic)
 def getRecordById(record_id: int):
     try: 
         record = service.getRecordById(record_id)

@@ -10,11 +10,6 @@ class ProgramingSchema(BaseModel):
 class ProgramingResponseModel(ProgramingSchema):
     id: int
 
-class ProgramingUpdate(BaseModel):
-    name: str
-    tear: int
-    op: int
-
 class ProgramingPublic(BaseModel):
     id: int
     name: str
