@@ -1,4 +1,4 @@
-from schemas.programingSchema import ProgramingSchema, ProgramingUpdate
+from schemas.programingSchema import ProgramingSchema
 from services.programingService import ProgramingService
 from fastapi import APIRouter
 from http import HTTPStatus
@@ -30,11 +30,6 @@ def createPrograming(programing: ProgramingSchema):
         return "Programação criado com sucesso !!"
     except:
         return HTTPStatus.INTERNAL_SERVER_ERROR
-
-@router.put('/update/{programing_id}', status_code=HTTPStatus.OK)
-def updatePrograming(programing_id: int, programing: ProgramingUpdate):
-    service.updatePrograming(programing_id, programing)
-    return "Programação atualizada com sucesso !!"
 
 @router.delete('/remove/{programing_id}', status_code=HTTPStatus.OK)
 def removePrograming(programing_id: int):

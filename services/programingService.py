@@ -1,10 +1,9 @@
-from datetime import datetime
 from utils.libs import Libs
 from sqlalchemy import select, delete
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
-from schemas.programingSchema import ProgramingSchema, ProgramingUpdate
+from schemas.programingSchema import ProgramingSchema
 from entities.programingHasTearEntity import ProgramingHasTearEntity
 from entities.programingHasOpEntity import ProgramingHasOpEntity
 from entities.programingEntity import ProgramingEntity
@@ -82,24 +81,6 @@ class ProgramingService:
         finally:
             session.close()
 
-    def updatePrograming(self, id, programingSchema: ProgramingUpdate):
-        try:
-            self.updateTearHasPrograming(id, programingSchema.tear)
-            self.updateOpHasPrograming(id, programingSchema.op)
-
-            select_query = select(ProgramingEntity).filter_by(id=id)
-            programings = session.execute(select_query).fetchall()
-            for programing in programings:
-                for key, value in programingSchema.dict(exclude_unset=True).items():
-                    setattr(programing[0], key, value)
-
-            session.commit()
-        except SQLAlchemyError as er:
-            session.rollback()
-            print(f"ERRO: {er}")
-        finally:
-            session.close()
-
     def deletePrograming(self, id):
         try:
             select_query = select(ProgramingEntity).filter_by(id=id)
@@ -115,30 +96,6 @@ class ProgramingService:
             session.close()
 
 # ----------------- Métodos de relacionamento
-    def updateTearHasPrograming(self, programing_id, tear_id):
-        select_query = select(ProgramingHasTearEntity).filter_by(programing_id=programing_id)
-        existing_relation = session.execute(select_query).scalar()
-
-        if existing_relation:
-            delete_query = delete(ProgramingHasTearEntity).where(ProgramingHasTearEntity.programing_id == programing_id)
-            session.execute(delete_query)
-
-            new_relation = ProgramingHasTearEntity(programing_id=programing_id, tear_id=tear_id)
-            session.add(new_relation)
-            session.commit()
-
-    def updateOpHasPrograming(self, programing_id, op_id):
-        select_query = select(ProgramingHasOpEntity).filter_by(programing_id=programing_id)
-        existing_relation = session.execute(select_query).scalar()
-
-        if existing_relation:
-            delete_query = delete(ProgramingHasOpEntity).where(ProgramingHasOpEntity.programing_id == programing_id)
-            session.execute(delete_query)
-
-            new_relation = ProgramingHasOpEntity(programing_id=programing_id, op_id=op_id)
-            session.add(new_relation)
-            session.commit()
-
     def getTearHasPrograming(self, programing_id):
         try:
             select_query = (
