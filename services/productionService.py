@@ -44,6 +44,32 @@ class ProductionService:
 
     def getAllRecordsByOp(self, op: str):
         try:
+            select_query = select(ProductionEntity).filter_by(op=op)
+            all_records = session.execute(select_query).fetchall()
+            all_records = [record[0] for record in all_records]
+            all_records = [
+            {
+                "id": record.id,
+                "code_per_piece": record.code_per_piece,
+                "weight": record.weight,
+                "review": record.review,
+                "invoiced": record.invoiced,
+                "date": record.date,
+                "tear": record.tear,
+                "operator": record.operator,
+                "op": record.op
+            }
+                for record in all_records
+            ]
+            return all_records
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+    def getLastRecordByOp(self, op: str):
+        try:
             select_query = select(ProductionEntity).filter_by(op=op).order_by(
                 desc(ProductionEntity.code_per_piece)
             ).limit(1)
