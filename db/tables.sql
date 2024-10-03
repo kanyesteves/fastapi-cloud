@@ -110,6 +110,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`invoicing` (
 	`records` 				JSON NOT NULL,
 	`customer` 				VARCHAR(100) NOT NULL,
 	`article`  				VARCHAR(100) NOT NULL,
+	`op` 						  VARCHAR(100) NOT NULL,
 	`date` 						DATE NOT NULL,
 	`weight_per_wire` JSON NOT NULL,
 	`total_weight` 		FLOAT NOT NULL,

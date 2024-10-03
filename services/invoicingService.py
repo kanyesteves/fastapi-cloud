@@ -31,6 +31,7 @@ class InvoicingService:
                     "date": invoicing.date,
                     "customer": invoicing.customer,
                     "article": invoicing.article,
+                    "op": invoicing.op,
                 }
                 for invoicing in all_invoicing
             ]
@@ -54,10 +55,9 @@ class InvoicingService:
 
     def createInvoicing(self, invoicing: InvoicingSchema):
         try:
-
-            for record in invoicing.records:
-                session.query(ProductionEntity).filter(ProductionEntity.id == record.id).update({"invoiced": True})
-                session.commit()
+            record_ids = [record.id for record in invoicing.records]
+            session.query(ProductionEntity).filter(ProductionEntity.id.in_(record_ids)).update({"invoiced": True}, synchronize_session=False)
+            session.commit()
 
             invoicing_entity = InvoicingEntity(
                                     records=invoicing.records, 
@@ -65,6 +65,7 @@ class InvoicingService:
                                     date=datetime.now(), 
                                     customer=invoicing.customer,
                                     article=invoicing.article,
+                                    op=invoicing.op,
                                     weight_per_wire=invoicing.weight_per_wire)
             session.add(invoicing_entity)
             session.commit()

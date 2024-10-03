@@ -12,9 +12,10 @@ class InvoicingEntity(InvoicingBase):
     records:           Mapped[dict]          = mapped_column(JSON)
     weight_per_wire:   Mapped[dict]          = mapped_column(JSON)
     total_weight:      Mapped[float]         = mapped_column(Float)
-    date:              Mapped[int]           = mapped_column(Date)
+    date:              Mapped[str]           = mapped_column(Date)
     customer:          Mapped[str]           = mapped_column(String(50))
     article:           Mapped[str]           = mapped_column(String(50))
+    op:                Mapped[str]           = mapped_column(String(50))
 
     def __repr__(self):
         return f"InvoicingModel(f{self.id=}, {self.customer=})"
