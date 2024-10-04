@@ -31,7 +31,7 @@ class InvoicingService:
                     "date": invoicing.date,
                     "customer": invoicing.customer,
                     "article": invoicing.article,
-                    "op": invoicing.op,
+                    "op": invoicing.op
                 }
                 for invoicing in all_invoicing
             ]
@@ -55,9 +55,9 @@ class InvoicingService:
 
     def createInvoicing(self, invoicing: InvoicingSchema):
         try:
-            record_ids = [record.id for record in invoicing.records]
-            session.query(ProductionEntity).filter(ProductionEntity.id.in_(record_ids)).update({"invoiced": True}, synchronize_session=False)
-            session.commit()
+            for record in invoicing.records:
+                session.query(ProductionEntity).filter(ProductionEntity.id == record['id']).update({"invoiced": True})
+                session.commit()
 
             invoicing_entity = InvoicingEntity(
                                     records=invoicing.records, 
@@ -69,7 +69,6 @@ class InvoicingService:
                                     weight_per_wire=invoicing.weight_per_wire)
             session.add(invoicing_entity)
             session.commit()
-                
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")
