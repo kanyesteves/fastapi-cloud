@@ -25,6 +25,7 @@ class InvoicingService:
             all_invoicing = [
                 {
                     "id": invoicing.id,
+                    "records": invoicing.records,
                     "weight_per_wire": invoicing.weight_per_wire,
                     "total_weight": invoicing.total_weight,
                     "date": invoicing.date,
