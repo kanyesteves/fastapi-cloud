@@ -37,7 +37,7 @@ def getOpOptions(op: str):
         op_options = {
             "total_weight": service.getTotalWeight(op),
             "total_pieces": service.getTotalPieces(op),
-            # "total_invoiced": service.getTotalInvoiced(op)
+            "total_invoiced": service.getTotalInvoiced(op)
         }
         return op_options
     except:

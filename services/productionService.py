@@ -192,8 +192,14 @@ class ProductionService:
 
     def getTotalInvoiced(self, op: str):
         try:
-            query = select(func.count()).filter_by(and_(op=op, invoiced=1))
-            totalInvoiced = session.execute(query).scalar()
+            totalInvoiced = (
+                session.query(func.count(ProductionEntity.id))
+                .filter(and_(
+                    ProductionEntity.op == op,
+                    ProductionEntity.invoiced == True
+                ))
+                .scalar()
+            )
             return totalInvoiced
         except SQLAlchemyError as er:
             session.rollback()
