@@ -74,3 +74,7 @@ class InvoicingService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+    def generatePDF(self, invoicing: InvoicingSchema):
+        print('Iniciando')
+        

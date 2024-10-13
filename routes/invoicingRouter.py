@@ -30,3 +30,11 @@ def createInvoicing(invoicing: InvoicingSchema):
         return "Faturado com sucesso !!"
     except:
         return HTTPStatus.INTERNAL_SERVER_ERROR
+
+@router.post('/generatePDF', status_code=HTTPStatus.CREATED)
+def generatePDF(invoicing: InvoicingSchema):
+    try: 
+        service.generatePDF(invoicing)
+        return "Exportado com sucesso !!"
+    except:
+        return HTTPStatus.INTERNAL_SERVER_ERROR

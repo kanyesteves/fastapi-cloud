@@ -8,3 +8,4 @@ pandas
 werkzeug
 cryptography
 python-multipart
+reportlab
