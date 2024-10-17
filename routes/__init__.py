@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 def create_app():
     app = FastAPI()
-    origins = '*'
+    origins = ["http://localhost:8080"]
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
@@ -24,6 +24,7 @@ def create_app():
     from routes import groupRouter
     from routes import programingRouter
     from routes import invoicingRouter
+    from routes import configurationRouter
 
     app.include_router(userRouter.router)
     app.include_router(tearRouter.router)
@@ -36,5 +37,6 @@ def create_app():
     app.include_router(groupRouter.router)
     app.include_router(programingRouter.router)
     app.include_router(invoicingRouter.router)
+    app.include_router(configurationRouter.router)
 
     return app
