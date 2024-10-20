@@ -10,8 +10,8 @@ class ArticleResponseModel(ArticleSchema):
     id: int
 
 class ArticleUpdate(BaseModel):
-    name:   Optional[str] = None
-    description: Optional[str] = None
+    name: str
+    description: str
 
 class ArticlePublic(BaseModel):
     id: int
