@@ -1,4 +1,5 @@
 from fastapi import APIRouter, File, UploadFile
+from fastapi.responses import FileResponse
 import shutil
 import os
 
@@ -16,3 +17,10 @@ async def uploadFile(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, file_object)
 
     return {"info": f"File '{file.filename}' saved at '{file_location}'"}
+
+@router.get('/get_file')
+async def getFile():
+    file_path = os.path.join(UPLOAD_DIRECTORY)
+    if os.path.isfile(file_path):
+        return FileResponse(file_path)
+    return {"error": "File not found"}
