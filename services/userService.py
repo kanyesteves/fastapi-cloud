@@ -47,11 +47,22 @@ class UserService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+    def getUserByName(self, name: str):
+        try:
+            select_query = select(UserEntity).filter_by(name=name)
+            user = session.execute(select_query).fetchall()
+            return user[0][0]
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
     
 
     def createUser(self, user: UserSchema):
         try:
-            user_entity = UserEntity(name=user.name, password=user.password, office=user.office, email=user.email)
+            user_entity = UserEntity(name=user.name, password=libs.set_password(user.password), office=user.office, email=user.email)
             session.add(user_entity)
             session.commit()
         except SQLAlchemyError as er:

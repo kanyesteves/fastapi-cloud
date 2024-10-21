@@ -9,3 +9,6 @@ werkzeug
 cryptography
 python-multipart
 reportlab
+pyjwt[crypto]
+python-jose[cryptography]
+passlib[bcrypt]

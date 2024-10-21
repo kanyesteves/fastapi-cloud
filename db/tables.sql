@@ -3,7 +3,7 @@ USE `volatex`;
 CREATE TABLE IF NOT EXISTS `volatex`.`users` (
 	`id`       INT auto_increment NOT NULL,
 	`name`     VARCHAR(100) NOT NULL,
-	`password` VARCHAR(100) NOT NULL,
+	`password` VARCHAR(500) NOT NULL,
 	`office`   VARCHAR(100) NOT NULL,
 	`email`    VARCHAR(100) NULL,
 	CONSTRAINT `users_pk` PRIMARY KEY (`id`),
