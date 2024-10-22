@@ -5,10 +5,6 @@ from utils.libs import Libs
 from jose import jwt
 import secrets
 
-SECRET_KEY = secrets.token_hex(32)
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 service = UserService()
 libs = Libs()
@@ -16,6 +12,9 @@ libs = Libs()
 class AuthService:
     def __init__(self):
         self.lib = Libs()
+        self.SECRET_KEY = secrets.token_hex(32)
+        self.ALGORITHM = "HS256"
+        self.ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
     def create_access_token(self, data: dict, expires_delta: timedelta | None = None):
         to_encode = data.copy()
@@ -26,7 +25,7 @@ class AuthService:
             expire = datetime.utcnow() + timedelta(minutes=15)
 
         to_encode.update({"exp": expire})
-        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+        encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
         return encoded_jwt
 
     def authenticate_user(self, username: str, password: str):
