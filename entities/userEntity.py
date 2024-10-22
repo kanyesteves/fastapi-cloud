@@ -16,4 +16,4 @@ class UserEntity(UserBase):
 
 
     def __repr__(self):
-        return f"UserModel({self.id=}, {self.name=})"
+        return f"UserModel({self.id=}, {self.name=}, {self.password=})"

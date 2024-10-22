@@ -7,7 +7,6 @@ import secrets
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 service = UserService()
-libs = Libs()
 
 class AuthService:
     def __init__(self):
@@ -31,8 +30,8 @@ class AuthService:
     def authenticate_user(self, username: str, password: str):
         user = service.getUserByName(username)
         if not user:
-            return False
-        if not libs.check_password(password, user.password):
+            return False        
+        if not self.lib.check_password(password, user.password):
             return False
         return user
 

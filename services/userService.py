@@ -52,7 +52,8 @@ class UserService:
         try:
             select_query = select(UserEntity).filter_by(name=name)
             user = session.execute(select_query).fetchall()
-            return user[0][0]
+            if user:
+                return user[0][0]
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")
