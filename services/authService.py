@@ -17,7 +17,7 @@ class AuthService:
     def __init__(self):
         self.lib = Libs()
 
-    def create_access_token(self, data: dict):
+    def create_access_token(self, data: dict, expires_delta: timedelta | None = None):
         to_encode = data.copy()
         expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
         to_encode.update({"exp": expire})
