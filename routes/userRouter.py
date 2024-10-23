@@ -1,11 +1,17 @@
 from schemas.userSchema import UserSchema, UserPublic, UserUpdate
 from services.userService import UserService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/users', tags=['Users Endpoints'])
 service = UserService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/users', 
+    tags=['Users Endpoints'], 
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllUsers():

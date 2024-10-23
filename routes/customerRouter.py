@@ -1,11 +1,17 @@
 from schemas.customerSchema import CustomerSchema, CustomerPublic, CustomerUpdate
 from services.customerService import CustomerService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/customers', tags=['Customers Endpoints'])
 service = CustomerService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/customers', 
+    tags=['Customers Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllCustomers():

@@ -1,11 +1,17 @@
 from schemas.programingSchema import ProgramingSchema
 from services.programingService import ProgramingService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/programings', tags=['Programings Endpoints'])
 service = ProgramingService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/programings',
+    tags=['Programings Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllPrograming():

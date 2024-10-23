@@ -1,11 +1,17 @@
 from schemas.invoicingSchema import InvoicingSchema, InvoicingPublic
 from services.invoicingService import InvoicingService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/invoicings', tags=['Invoicings Endpoints'])
 service = InvoicingService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/invoicings',
+    tags=['Invoicings Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllInvoicings():

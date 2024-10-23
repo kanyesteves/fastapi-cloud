@@ -1,12 +1,18 @@
 from schemas.wireSchema import WireSchema, WirePublic, WireUpdate
 from services.wireService import WireService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/wires', tags=['Wires Endpoints'])
 service = WireService()
-    
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/wires',
+    tags=['Wires Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
+
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllWires():
     try: 

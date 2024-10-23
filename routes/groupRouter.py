@@ -1,12 +1,17 @@
 from schemas.groupSchema import GroupSchema, GroupPublic, GroupUpdate
-from services.customerService import CustomerService
 from services.groupService import GroupService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/groups', tags=['Groups Endpoints'])
 service = GroupService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/groups', 
+    tags=['Groups Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllGroups():

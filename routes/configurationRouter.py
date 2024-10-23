@@ -1,11 +1,17 @@
-from fastapi import APIRouter, File, UploadFile
+from fastapi import APIRouter, File, UploadFile, Depends
+from services.authService import AuthService
 from fastapi.responses import FileResponse
 import shutil
 import os
 
 UPLOAD_DIRECTORY = "./uploads/"
 
-router = APIRouter(prefix='/configurations', tags=['Configuratinos Endpoints'])
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/configurations', 
+    tags=['Configuratinos Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
 
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY)

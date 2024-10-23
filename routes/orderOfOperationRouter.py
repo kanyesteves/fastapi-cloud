@@ -1,11 +1,17 @@
 from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationUpdate
 from services.orderOfOperationService import OrderOfOperationrService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/orderOfOperatios', tags=['Order Of Operatios Endpoints'])
 service = OrderOfOperationrService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/orderOfOperatios',
+    tags=['Order Of Operatios Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllOPs():

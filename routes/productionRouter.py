@@ -1,11 +1,17 @@
 from schemas.productionSchema import ProductionSchema, ProductionPublic, ProductionUpdate
 from services.productionService import ProductionService
-from fastapi import APIRouter
+from services.authService import AuthService
+from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/productions', tags=['Productions Endpoints'])
 service = ProductionService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/productions',
+    tags=['Productions Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllRecords():

@@ -1,12 +1,18 @@
 from schemas.articleSchema import ArticleSchema, ArticlePublic, ArticleUpdate
 from services.articleService import ArticleService
-from fastapi import APIRouter, File, UploadFile
+from services.authService import AuthService
+from fastapi import APIRouter, File, UploadFile, Depends
 from fastapi.responses import JSONResponse
 from http import HTTPStatus
 
 
-router = APIRouter(prefix='/articles', tags=['Articles Endpoints'])
 service = ArticleService()
+auth_service = AuthService()
+router = APIRouter(
+    prefix='/articles', 
+    tags=['Articles Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
+)
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllArticles():
