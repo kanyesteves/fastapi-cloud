@@ -11,7 +11,7 @@ class TearEntity(TearBase):
     id:             Mapped[int]  = mapped_column(primary_key=True, autoincrement=True)
     name:           Mapped[str]  = mapped_column(String(50))
     model:          Mapped[str]  = mapped_column(String(50))
-    status:         Mapped[bool] = mapped_column(Boolean, default=True)
+    status:         Mapped[bool] = mapped_column(Boolean, default=False)
 
     def __repr__(self):
         return f"TearModel(f{self.id=}, {self.name=})"
