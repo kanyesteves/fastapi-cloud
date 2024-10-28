@@ -5,7 +5,7 @@ from typing import List, Optional
 class OperatorSchema(BaseModel):
     name: str
     office: str
-    turn: str
+    turn: Optional[str] = None
 
 class OperatorResponseModel(OperatorSchema):
     id: int

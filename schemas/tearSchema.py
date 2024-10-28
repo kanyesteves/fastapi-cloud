@@ -5,7 +5,7 @@ from typing import List, Optional
 class TearSchema(BaseModel):
     name: str
     model: str
-    status: bool
+    status: Optional[bool] = None
 
 class TearResponseModel(TearSchema):
     id: int

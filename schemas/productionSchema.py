@@ -1,6 +1,6 @@
 from datetime import date
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from schemas.operatorSchema import OperatorPublic
 from schemas.orderOfOperationSchema import OrderOfOperationPublic
 from schemas.tearSchema import TearPublic
@@ -8,7 +8,7 @@ from schemas.tearSchema import TearPublic
 class ProductionSchema(BaseModel):
     code_per_piece: int
     weight: float
-    review: str
+    review: Optional[str] = None
     tear: str
     op: str
     operator: str
