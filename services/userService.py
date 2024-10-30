@@ -50,13 +50,16 @@ class UserService:
 
     def getUserByName(self, name: str):
         try:
-            select_query = select(UserEntity).filter_by(name=name)
+            select_query = select(UserEntity).filter(
+                UserEntity.name == name
+            )
             user = session.execute(select_query).fetchall()
             if user:
                 return user[0][0]
         except SQLAlchemyError as er:
-            session.rollback()
             print(f"ERRO: {er}")
+            session.rollback()
+            return None
         finally:
             session.close()
     

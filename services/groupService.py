@@ -167,3 +167,18 @@ class GroupService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+    def getGroupHasUser(self, user_id):
+        try:
+            select_query = (
+                select(GroupEntity)
+                .join(GroupHasUsersEntity, GroupEntity.id == GroupHasUsersEntity.group_id)
+                .filter(GroupHasUsersEntity.user_id == user_id)
+            )
+            group = session.execute(select_query).fetchall()
+            return group[0][0]
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()

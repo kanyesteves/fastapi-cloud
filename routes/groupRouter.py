@@ -1,12 +1,14 @@
 from schemas.groupSchema import GroupSchema, GroupPublic, GroupUpdate
 from services.groupService import GroupService
 from services.authService import AuthService
-from fastapi import APIRouter, Depends
+from services.userService import UserService
+from fastapi import APIRouter, Depends, HTTPException
 from http import HTTPStatus
 
 
 service = GroupService()
 auth_service = AuthService()
+user_service = UserService()
 router = APIRouter(
     prefix='/groups', 
     tags=['Groups Endpoints'],
@@ -28,6 +30,22 @@ def getGroupById(group_id: int):
         return group
     except:
         return HTTPStatus.NOT_FOUND
+
+@router.post('/getPermissions', status_code=HTTPStatus.OK)
+def getPermissions(data: dict):
+    try:
+        user = user_service.getUserByName(data["sub"])
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        group = service.getGroupHasUser(user.id)
+        return group
+    except KeyError:
+        raise HTTPException(status_code=422, detail="Missing required field 'sub'.")
+    except Exception as e:
+        print(f"Error: {e}")
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
+    
     
 @router.get('/getUsersHasGroup/{group_id}', status_code=HTTPStatus.OK)
 def getUsersHasGroup(group_id: int):
