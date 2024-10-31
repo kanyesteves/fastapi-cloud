@@ -37,7 +37,7 @@ def getPermissions(data: dict):
         user = user_service.getUserByName(data["sub"])
         if not user:
             raise HTTPException(status_code=404, detail="User not found")
-        
+
         group = service.getGroupHasUser(user.id)
         return group
     except KeyError:
@@ -45,7 +45,7 @@ def getPermissions(data: dict):
     except Exception as e:
         print(f"Error: {e}")
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND)
-    
+
     
 @router.get('/getUsersHasGroup/{group_id}', status_code=HTTPStatus.OK)
 def getUsersHasGroup(group_id: int):

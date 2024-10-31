@@ -1,6 +1,7 @@
 from schemas.invoicingSchema import InvoicingSchema, InvoicingPublic
 from services.invoicingService import InvoicingService
 from services.authService import AuthService
+from fastapi.responses import FileResponse
 from fastapi import APIRouter, Depends
 from http import HTTPStatus
 
@@ -40,7 +41,8 @@ def createInvoicing(invoicing: InvoicingSchema):
 @router.post('/generatePDF', status_code=HTTPStatus.CREATED)
 def generatePDF(invoicing: InvoicingSchema):
     try: 
-        service.generatePDF(invoicing)
-        return "Exportado com sucesso !!"
-    except:
+        pdf_path = service.generatePDF(invoicing)
+        return FileResponse(pdf_path, filename=f"faturamento_{invoicing.customer}.pdf", media_type='application/pdf')
+    except Exception as e:
+        print(e)
         return HTTPStatus.INTERNAL_SERVER_ERROR

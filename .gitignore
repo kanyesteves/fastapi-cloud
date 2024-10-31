@@ -11,6 +11,7 @@ __pycache__/
 *.so
 
 # Customize
+templates/
 fastapicloud/
 utils/connDB.py
 
