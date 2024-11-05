@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
 	`total_pieces` 		 INT DEFAULT '0',
 	`wire_porcentage`  JSON NOT NULL,
 	CONSTRAINT `order_of_operation_pk` PRIMARY KEY (`id`)
+	UNIQUE KEY `order_of_operation_unique` (`code`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
@@ -81,7 +82,7 @@ COLLATE=utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `volatex`.`articles` (
 	`id` 					INT auto_increment NOT NULL,
 	`name` 				VARCHAR(100) NOT NULL,
-	`description` VARCHAR(100) NULL,
+	`description` VARCHAR(100) DEFAULT NULL,
 	CONSTRAINT `articles_pk` PRIMARY KEY (`id`),
 	CONSTRAINT `articles_unique` UNIQUE KEY (`name`)
 )
@@ -89,20 +90,20 @@ ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS `volatex`.`productions` (
-	`id` 						 INT auto_increment NOT NULL,
-	`code_per_piece` INT DEFAULT 0 NOT NULL,
-	`weight` 				 FLOAT NOT NULL,
-	`review` 				 VARCHAR(200) NOT NULL,
+CREATE TABLE `productions` (
+  `id` 						 INT NOT NULL AUTO_INCREMENT,
+  `code_per_piece` INT NOT NULL DEFAULT '0',
+  `weight` 				 FLOAT NOT NULL,
+  `review` 				 VARCHAR(200) NOT NULL,
+  `date` 					 DATE NOT NULL,
   `invoiced` 			 TINYINT(1) NOT NULL DEFAULT '0',
-	`date` 					 DATE NOT NULL,
-	`tear` 					 JSON NOT NULL,
-	`op` 						 JSON NOT NULL,
-	`operator` 			 JSON NOT NULL,
-	CONSTRAINT `productions_pk` PRIMARY KEY (id)
+  `tear` 					 VARCHAR(100) NOT NULL,
+  `op` 						 VARCHAR(100) NOT NULL,
+  `operator` 			 VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`)
 )
-ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
+ENGINE=InnoDB AUTO_INCREMENT=71 
+DEFAULT CHARSET=utf8mb4 
 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `volatex`.`invoicing` (
