@@ -1,4 +1,4 @@
-import pdfkit
+import pdfkit, os
 from utils.libs import Libs
 from datetime import datetime
 from sqlalchemy import select
@@ -78,15 +78,24 @@ class InvoicingService:
             session.close()
 
     def generatePDF(self, invoicing: InvoicingSchema):
-        print('Iniciando')
 
         env = Environment(loader=FileSystemLoader("templates"))
-        template = env.get_template("invoice_template.html")
-
+        template = env.get_template("invoicing_template.html")
         html_content = template.render(invoicing=invoicing)
 
         config = pdfkit.configuration(wkhtmltopdf='/usr/local/bin/wkhtmltopdf')
-        pdf_path = f"/tmp/invoice_{invoicing.id}.pdf"
-        pdfkit.from_string(html_content, pdf_path, configuration=config)
+        pdf_path = f"/tmp/invoice_{invoicing.customer}_{invoicing.op}.pdf"
+        
+        try:
+            pdfkit.from_string(html_content, pdf_path, configuration=config)
+        except Exception as e:
+            print(f"Erro ao gerar o PDF: {e}")
+            raise
 
-        return pdf_path
+        if os.path.exists(pdf_path):
+            return pdf_path
+        else:
+            print("Erro: o arquivo PDF não foi encontrado.")
+            raise FileNotFoundError("O arquivo PDF não foi criado.")
+
+            return pdf_path

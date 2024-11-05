@@ -42,7 +42,12 @@ def createInvoicing(invoicing: InvoicingSchema):
 def generatePDF(invoicing: InvoicingSchema):
     try: 
         pdf_path = service.generatePDF(invoicing)
-        return FileResponse(pdf_path, filename=f"faturamento_{invoicing.customer}.pdf", media_type='application/pdf')
+        file_name = f"faturamento_{invoicing.customer}_{invoicing.op}.pdf"
+        return FileResponse(
+            path=pdf_path,
+            filename=file_name, 
+            media_type='application/octet-stream'
+        )
     except Exception as e:
         print(e)
         return HTTPStatus.INTERNAL_SERVER_ERROR
