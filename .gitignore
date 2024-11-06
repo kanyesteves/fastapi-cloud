@@ -14,6 +14,7 @@ __pycache__/
 templates/
 fastapicloud/
 utils/connDB.py
+Dockerfile
 
 # Distribution / packaging
 .Python
