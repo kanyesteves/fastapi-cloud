@@ -9,8 +9,7 @@ service = UserService()
 auth_service = AuthService()
 router = APIRouter(
     prefix='/users', 
-    tags=['Users Endpoints'], 
-    dependencies=[Depends(auth_service.get_current_user)]
+    tags=['Users Endpoints']
 )
     
 @router.get('/getAll', status_code=HTTPStatus.OK)

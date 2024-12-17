@@ -36,26 +36,22 @@ CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
   `date_open` 		   DATE DEFAULT NULL,
 	`total_pieces` 		 INT DEFAULT '0',
 	`wire_porcentage`  JSON NOT NULL,
-	CONSTRAINT `order_of_operation_pk` PRIMARY KEY (`id`)
+	CONSTRAINT `order_of_operation_pk` PRIMARY KEY (`id`),
 	UNIQUE KEY `order_of_operation_unique` (`code`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
-ALTER TABLE `volatex`.`order_of_operation` ADD CONSTRAINT order_of_operation_unique UNIQUE KEY (code);
-
 CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
 	`id`      		INT auto_increment NOT NULL,
 	`name`    		VARCHAR(100) NOT NULL,
 	`description` VARCHAR(500) DEFAULT NULL,
-	CONSTRAINT `customers_pk` PRIMARY KEY (`id`),
+	CONSTRAINT `customers_pk` PRIMARY KEY (`id`)
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
-
-ALTER TABLE `volatex`.`order_of_operation` ADD CONSTRAINT order_of_operation_customers_FK FOREIGN KEY (`customer_id`) REFERENCES `volatex`.`customers`(`id`);
 
 CREATE TABLE IF NOT EXISTS `volatex`.`operators` (
 	`id`     INT auto_increment NOT NULL,
@@ -72,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`wires` (
 	`id`          INT auto_increment NOT NULL,
 	`name`        VARCHAR(100) NOT NULL,
 	`description` VARCHAR(500) NULL,
-	CONSTRAINT `wires_pk` PRIMARY KEY (`id`)
+	CONSTRAINT `wires_pk` PRIMARY KEY (`id`),
 	CONSTRAINT `wires_unique` UNIQUE KEY (`name`)
 )
 ENGINE=InnoDB
@@ -198,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`programing_has_tear` (
 	`tear_id`       INT NOT NULL,
 	CONSTRAINT `programing_has_tear_pk` PRIMARY KEY (`id`),
 	CONSTRAINT `programing_has_tear_teares_FK` FOREIGN KEY (`tear_id`) REFERENCES `volatex`.`teares`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT `programing_has_tear_programing_FK` FOREIGN KEY (`programing_id`) REFERENCES `volatex`.`programing`(`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT `programing_has_tear_programing_FK` FOREIGN KEY (`programing_id`) REFERENCES `volatex`.`programing`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
