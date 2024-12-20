@@ -6,4 +6,5 @@ COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
-CMD ["sh", "-c", "uvicorn run:app --host 0.0.0.0 --port ${BACKEND_PORT}"]
+RUN chmod +x start.sh
+CMD ["./start.sh"]
