@@ -11,7 +11,8 @@ auth_service = AuthService()
 user_service = UserService()
 router = APIRouter(
     prefix='/groups', 
-    tags=['Groups Endpoints']
+    tags=['Groups Endpoints'],
+    dependencies=[Depends(auth_service.get_current_user)]
 )
     
 @router.get('/getAll', status_code=HTTPStatus.OK)

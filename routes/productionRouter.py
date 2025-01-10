@@ -9,8 +9,7 @@ service = ProductionService()
 auth_service = AuthService()
 router = APIRouter(
     prefix='/productions',
-    tags=['Productions Endpoints'],
-    dependencies=[Depends(auth_service.get_current_user)]
+    tags=['Productions Endpoints']
 )
     
 @router.get('/getAll', status_code=HTTPStatus.OK)
