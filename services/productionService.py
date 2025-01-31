@@ -44,7 +44,10 @@ class ProductionService:
 
     def getAllRecordsByOp(self, op: str):
         try:
-            select_query = select(ProductionEntity).filter_by(op=op)
+            select_query = select(ProductionEntity).filter(and_(
+                    ProductionEntity.op == op,
+                    ProductionEntity.invoiced == False
+                ))
             all_records = session.execute(select_query).fetchall()
             all_records = [record[0] for record in all_records]
             all_records = [
