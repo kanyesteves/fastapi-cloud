@@ -24,6 +24,7 @@ class WireService:
                     "id": wire.id,
                     "name": wire.name,
                     "description": wire.description,
+                    "weight": wire.weight,
                 }
                 for wire in all_wires
             ]
@@ -45,9 +46,20 @@ class WireService:
         finally:
             session.close()
 
+    def getWireByName(self, name):
+        try:
+            select_query = select(WireEntity).filter_by(name=name)
+            wire = session.execute(select_query).fetchall()
+            return wire[0][0]
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
     def createWire(self, wire: WireSchema):
         try:
-            wire_entity = WireEntity(name=wire.name, description=wire.description)
+            wire_entity = WireEntity(name=wire.name, description=wire.description, weight=wire.weight)
             session.add(wire_entity)
             session.commit()
         except SQLAlchemyError as er:

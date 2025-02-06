@@ -4,13 +4,16 @@ from datetime import datetime
 from sqlalchemy import select
 from utils.connDB import ConnectDB
 from sqlalchemy.exc import SQLAlchemyError
+from services.wireService import WireService
 from jinja2 import Environment, FileSystemLoader
 from sqlalchemy.orm import Session, sessionmaker
 from schemas.invoicingSchema import InvoicingSchema
 from entities.invoicingEntity import InvoicingEntity
 from entities.productionEntity import ProductionEntity
+from entities.wireEntity import WireEntity
 
 
+wire_service = WireService()
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
 session = Session()
@@ -61,6 +64,15 @@ class InvoicingService:
                 session.query(ProductionEntity).filter(ProductionEntity.id == record['id']).update({"invoiced": True})
                 session.commit()
 
+            for wire in list(invoicing.weight_per_wire):
+                weight = float(wire["weight"])
+                wire_aux = wire_service.getWireByName(wire["name"])
+                print(type(wire_aux.weight))
+                print(type(wire["weight"]))
+                wire_aux.weight = wire_aux.weight - weight
+                session.query(WireEntity).filter(WireEntity.id == wire_aux.id).update({"weight": wire_aux.weight})
+                session.commit()
+ 
             invoicing_entity = InvoicingEntity(
                                     records=invoicing.records, 
                                     total_weight=invoicing.total_weight, 

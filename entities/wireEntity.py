@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer
+from sqlalchemy import String, Float
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -8,9 +8,10 @@ class WireBase(DeclarativeBase):
 class WireEntity(WireBase):
     __tablename__ = 'wires'
 
-    id:             Mapped[int]  = mapped_column(primary_key=True, autoincrement=True)
-    name:           Mapped[str]  = mapped_column(String(50))
-    description:    Mapped[str]  = mapped_column(String(500))
+    id:             Mapped[int]    = mapped_column(primary_key=True, autoincrement=True)
+    name:           Mapped[str]    = mapped_column(String(50))
+    description:    Mapped[str]    = mapped_column(String(500))
+    weight:         Mapped[float]  = mapped_column(Float)
 
     def __repr__(self):
         return f"WireModel(f{self.id=}, {self.name=})"
