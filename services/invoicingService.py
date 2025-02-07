@@ -67,8 +67,6 @@ class InvoicingService:
             for wire in list(invoicing.weight_per_wire):
                 weight = float(wire["weight"])
                 wire_aux = wire_service.getWireByName(wire["name"])
-                print(type(wire_aux.weight))
-                print(type(wire["weight"]))
                 wire_aux.weight = wire_aux.weight - weight
                 session.query(WireEntity).filter(WireEntity.id == wire_aux.id).update({"weight": wire_aux.weight})
                 session.commit()
