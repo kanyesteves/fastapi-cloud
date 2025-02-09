@@ -36,7 +36,8 @@ class InvoicingService:
                     "date": invoicing.date,
                     "customer": invoicing.customer,
                     "article": invoicing.article,
-                    "op": invoicing.op
+                    "op": invoicing.op,
+                    "volume": invoicing.volume
                 }
                 for invoicing in all_invoicing
             ]
@@ -78,6 +79,7 @@ class InvoicingService:
                                     customer=invoicing.customer,
                                     article=invoicing.article,
                                     op=invoicing.op,
+                                    volume=invoicing.volume,
                                     weight_per_wire=invoicing.weight_per_wire)
             session.add(invoicing_entity)
             session.commit()

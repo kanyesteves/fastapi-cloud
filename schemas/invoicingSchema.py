@@ -9,6 +9,7 @@ class InvoicingSchema(BaseModel):
     customer: str
     article: str
     op: str
+    volume: int
 
 class InvoincingResponseModel(InvoicingSchema):
     id: int
@@ -21,6 +22,7 @@ class InvoicingPublic(BaseModel):
     customer: str
     article: str
     op: str
+    volume: int
     date: date
 
 class InvoicingList(BaseModel):

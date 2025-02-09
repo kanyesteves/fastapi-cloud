@@ -1,4 +1,4 @@
-from sqlalchemy import String, Float, Date, JSON
+from sqlalchemy import String, Float, Date, JSON, Integer
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -16,6 +16,7 @@ class InvoicingEntity(InvoicingBase):
     customer:          Mapped[str]           = mapped_column(String(50))
     article:           Mapped[str]           = mapped_column(String(50))
     op:                Mapped[str]           = mapped_column(String(50))
+    volume:            Mapped[int]           = mapped_column(Integer)
 
     def __repr__(self):
         return f"InvoicingModel(f{self.id=}, {self.customer=})"
