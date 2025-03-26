@@ -18,6 +18,7 @@ class OrderOfOperationEntity(OrderOfOperationBase):
     date_open:         Mapped[str]            = mapped_column(Date)
     label_item:        Mapped[bool]           = mapped_column(Boolean, default=False)
     wire_porcentage:   Mapped[dict]           = mapped_column(JSON)
+    fiscal_note:       Mapped[str]            = mapped_column(String(5))
 
     def __repr__(self):
         return f"OrderOfOperationModel(f{self.id=}, {self.code=})"

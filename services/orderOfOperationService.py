@@ -39,7 +39,8 @@ class OrderOfOperationrService:
                     "label_item": op.label_item,
                     "customer": self.getCustomerHasOp(op.id),
                     "article": self.getArticleHasOp(op.id),
-                    "wires": self.getWiresHasOp(op.id)
+                    "wires": self.getWiresHasOp(op.id),
+                    "fiscal_note": op.fiscal_note
                 }
                 for op in all_ops
             ]
@@ -70,7 +71,8 @@ class OrderOfOperationrService:
                     "label_item": op.label_item,
                     "customer": self.getCustomerHasOp(op.id),
                     "article": self.getArticleHasOp(op.id),
-                    "wires": self.getWiresHasOp(op.id)
+                    "wires": self.getWiresHasOp(op.id),
+                    "fiscal_note": op.fiscal_note
                 }
                 for op in all_ops
             ]
@@ -99,7 +101,8 @@ class OrderOfOperationrService:
                     "label_item": op.label_item,
                     "customer": self.getCustomerHasOp(op.id),
                     "article": self.getArticleHasOp(op.id),
-                    "wires": self.getWiresHasOp(op.id)
+                    "wires": self.getWiresHasOp(op.id),
+                    "fiscal_note": op.fiscal_note
                 }
                 for op in ops
             ]
@@ -120,6 +123,7 @@ class OrderOfOperationrService:
                                         total_pieces=op.total_pieces,
                                         date_open=datetime.now(),
                                         wire_porcentage=op.wire_porcentage,
+                                        fiscal_note=op.fiscal_note,
                                         status='open')
             session.add(op_entity)
             session.commit()

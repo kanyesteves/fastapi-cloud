@@ -26,21 +26,23 @@ DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `volatex`.`order_of_operation` (
-	`id`               INT auto_increment NOT NULL,
-	`code`             VARCHAR(100) NOT NULL,
-	`weight_per_piece` FLOAT NOT NULL,
-	`total_weight`     FLOAT NOT NULL,
-  `label_item` 			 TINYINT(1) NOT NULL DEFAULT '0',
-	`status` 					 VARCHAR(100) NOT NULL DEFAULT 'open',
-  `date_closed` 		 DATE DEFAULT NULL,
-  `date_open` 		   DATE DEFAULT NULL,
-	`total_pieces` 		 INT DEFAULT '0',
-	`wire_porcentage`  JSON NOT NULL,
-	CONSTRAINT `order_of_operation_pk` PRIMARY KEY (`id`),
-	UNIQUE KEY `order_of_operation_unique` (`code`)
-)
-ENGINE=InnoDB
-DEFAULT CHARSET=utf8mb4
+  `id` 				 INT NOT NULL AUTO_INCREMENT,
+  `code` 			 VARCHAR(100) NOT NULL,
+  `weight_per_piece` FLOAT NOT NULL,
+  `total_weight` 	 FLOAT NOT NULL,
+  `label_item` 	     TINYINT(1) NOT NULL DEFAULT '0',
+  `status` 			 VARCHAR(100) NOT NULL DEFAULT 'open',
+  `date_closed` 	 DATE DEFAULT NULL,
+  `date_open` 		 DATE DEFAULT NULL,
+  `total_pieces` 	 INT DEFAULT '0',
+  `wire_porcentage`  JSON NOT NULL,
+  `fiscal_note` 	 VARCHAR(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_of_operation_unique` (`code`)
+) 
+ENGINE=InnoDB 
+AUTO_INCREMENT=3 
+DEFAULT CHARSET=utf8mb4 
 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS `volatex`.`customers` (
@@ -112,6 +114,7 @@ CREATE TABLE IF NOT EXISTS `volatex`.`invoicing` (
 	`date` 						DATE NOT NULL,
 	`weight_per_wire` JSON NOT NULL,
 	`total_weight` 		FLOAT NOT NULL,
+	`volume` 			INT NOT NULL,
 	CONSTRAINT `invoicing_pk` PRIMARY KEY (id)
 )
 ENGINE=InnoDB

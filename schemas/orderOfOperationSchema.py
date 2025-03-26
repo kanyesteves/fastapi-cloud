@@ -13,6 +13,7 @@ class OrderOfOperationSchema(BaseModel):
     article: int
     wires: List[int]
     wire_porcentage: List[dict]
+    fiscal_note: Optional[str] = None
 
 class OrderOfOperationResponseModel(OrderOfOperationSchema):
     id: int
@@ -28,6 +29,7 @@ class OrderOfOperationUpdate(BaseModel):
     article: int
     wires: List[int]
     wire_porcentage: List[dict]
+    fiscal_note: Optional[str] = None
 
 
 class OrderOfOperationPublic(BaseModel):
@@ -40,6 +42,7 @@ class OrderOfOperationPublic(BaseModel):
     total_pieces: Optional[int] = None
     date_closed: Optional[date] = None
     wire_porcentage: List[dict]
+    fiscal_note: Optional[str] = None
 
 class OrderOfOperationList(BaseModel):
     ops: List[OrderOfOperationPublic]
