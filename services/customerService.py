@@ -1,4 +1,3 @@
-import json
 from sqlalchemy import select
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
