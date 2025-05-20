@@ -1,7 +1,7 @@
 import pdfkit, os
 from utils.libs import Libs
 from datetime import datetime
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from utils.connDB import ConnectDB
 from sqlalchemy.exc import SQLAlchemyError
 from services.wireService import WireService
@@ -24,7 +24,7 @@ class InvoicingService:
 
     def getAllInvoicings(self):
         try:
-            select_query = select(InvoicingEntity)
+            select_query = select(InvoicingEntity).order_by(desc(InvoicingEntity.date))
             all_invoicing = session.execute(select_query).fetchall()
             all_invoicing = [invoicing[0] for invoicing in all_invoicing]
             all_invoicing = [

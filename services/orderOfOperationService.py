@@ -1,6 +1,6 @@
 from datetime import datetime
 from utils.libs import Libs
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, desc
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
@@ -23,7 +23,7 @@ class OrderOfOperationrService:
 
     def getAllOPs(self):
         try:
-            select_query = select(OrderOfOperationEntity)
+            select_query = select(OrderOfOperationEntity).order_by(desc(OrderOfOperationEntity.date_open))
             all_ops = session.execute(select_query).fetchall()
             all_ops = [op[0] for op in all_ops]
             all_ops = [
