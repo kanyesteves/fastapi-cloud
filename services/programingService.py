@@ -27,6 +27,8 @@ class ProgramingService:
                 {
                     "id": programing.id,
                     "name": programing.name,
+                    "date_start": programing.date_start,
+                    "date_end": programing.date_end,
                     "tear": self.getTearHasPrograming(programing.id),
                     "op": self.getOpHasPrograming(programing.id)
                 }
@@ -48,6 +50,8 @@ class ProgramingService:
                 {
                     "id": programing.id,
                     "name": programing.name,
+                    "date_start": programing.date_start,
+                    "date_end": programing.date_end,
                     "tear": self.getTearHasPrograming(programing.id),
                     "op": self.getOpHasPrograming(programing.id)
                 }
@@ -62,7 +66,7 @@ class ProgramingService:
 
     def createPrograming(self, programing: ProgramingSchema):
         try:
-            programing_entity = ProgramingEntity(name=programing.name)
+            programing_entity = ProgramingEntity(name=programing.name, date_start=programing.date_start, date_end=programing.date_end)
             session.add(programing_entity)
             session.commit()
             last_id = programing_entity.id
