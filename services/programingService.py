@@ -1,5 +1,6 @@
 from utils.libs import Libs
-from sqlalchemy import select, delete
+from datetime import datetime
+from sqlalchemy import select
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
@@ -29,6 +30,11 @@ class ProgramingService:
                     "name": programing.name,
                     "date_start": programing.date_start,
                     "date_end": programing.date_end,
+                    "rpm": programing.rpm,
+                    "efficiency": programing.efficiency,
+                    "weight_daily": programing.weight_daily,
+                    "days_for_done": programing.days_for_done,
+                    "wires": programing.wires,
                     "tear": self.getTearHasPrograming(programing.id),
                     "op": self.getOpHasPrograming(programing.id)
                 }
@@ -52,6 +58,11 @@ class ProgramingService:
                     "name": programing.name,
                     "date_start": programing.date_start,
                     "date_end": programing.date_end,
+                    "rpm": programing.rpm,
+                    "efficiency": programing.efficiency,
+                    "weight_daily": programing.weight_daily,
+                    "days_for_done": programing.days_for_done,
+                    "wires": programing.wires,
                     "tear": self.getTearHasPrograming(programing.id),
                     "op": self.getOpHasPrograming(programing.id)
                 }
@@ -66,7 +77,16 @@ class ProgramingService:
 
     def createPrograming(self, programing: ProgramingSchema):
         try:
-            programing_entity = ProgramingEntity(name=programing.name, date_start=programing.date_start, date_end=programing.date_end)
+            programing_entity = ProgramingEntity(
+                name=programing.name, 
+                date_start=self.formatDate(programing.date_start), 
+                date_end=self.formatDate(programing.date_end),
+                rpm=programing.rpm,
+                efficiency=programing.efficiency,
+                weight_daily=programing.weight_daily,
+                days_for_done=programing.days_for_done,
+                wires=programing.wires)
+
             session.add(programing_entity)
             session.commit()
             last_id = programing_entity.id
@@ -152,3 +172,12 @@ class ProgramingService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+
+    def formatDate(self, date):
+        date_aux = date
+        input_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+        date_ok = datetime.strptime(date_aux, input_format)
+
+        format_out = "%Y-%m-%d"
+        return date_ok.strftime(format_out)
