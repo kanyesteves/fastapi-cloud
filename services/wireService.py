@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from utils.connDB import ConnectDB
@@ -16,7 +16,7 @@ class WireService:
 
     def getAllWires(self):
         try:
-            select_query = select(WireEntity)
+            select_query = select(WireEntity).order_by(desc(WireEntity.id))
             all_wires = session.execute(select_query).fetchall()
             all_wires = [wire[0] for wire in all_wires]
             all_wires = [
