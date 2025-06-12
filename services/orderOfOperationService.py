@@ -301,6 +301,7 @@ class OrderOfOperationrService:
                     "id": wire.id,
                     "name": wire.name,
                     "description": wire.description,
+                    "weight": wire.weight,
                 }
                 for wire in wires
             ]
