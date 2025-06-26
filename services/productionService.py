@@ -99,6 +99,34 @@ class ProductionService:
         finally:
             session.close()
 
+    def getLast3Records(self):
+        try:
+            select_query = select(ProductionEntity).order_by(
+                desc(ProductionEntity.id)
+            ).limit(3)
+            all_records = session.execute(select_query).fetchall()
+            all_records = [record[0] for record in all_records]
+            all_records = [
+            {
+                "id": record.id,
+                "code_per_piece": record.code_per_piece,
+                "weight": record.weight,
+                "review": record.review,
+                "invoiced": record.invoiced,
+                "date": record.date,
+                "tear": record.tear,
+                "operator": record.operator,
+                "op": record.op
+            }
+                for record in all_records
+            ]
+            return all_records
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
     def getRecordById(self, id):
         try:
             select_query = select(ProductionEntity).filter_by(id=id)

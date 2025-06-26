@@ -36,6 +36,14 @@ def getLastRecordByOp(op: str):
     except:
         return HTTPStatus.NOT_FOUND
     
+@router.get('/getLast3Records', status_code=HTTPStatus.OK)
+def getLast3Records():
+    try:
+        last_3_records = service.getLast3Records()
+        return last_3_records
+    except:
+        return HTTPStatus.NOT_FOUND
+    
 @router.get('/getOpOptions/{op}', status_code=HTTPStatus.OK)
 def getOpOptions(op: str):
     try:
