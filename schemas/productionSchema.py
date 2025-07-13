@@ -12,6 +12,7 @@ class ProductionSchema(BaseModel):
     tear: str
     op: str
     operator: str
+    second_quality: str
 
 class ProductionResponseModel(ProductionSchema):
     id: int
@@ -24,6 +25,7 @@ class ProductionUpdate(BaseModel):
     tear: str
     op: str
     operator: str
+    second_quality: str
 
 class ProductionPublic(BaseModel):
     id: int
@@ -35,6 +37,7 @@ class ProductionPublic(BaseModel):
     tear: str
     op: str
     operator: str
+    second_quality: str
 
 class ProductionList(BaseModel):
     productions: List[ProductionPublic]

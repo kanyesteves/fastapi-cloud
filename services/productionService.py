@@ -45,9 +45,10 @@ class ProductionService:
     def getAllRecordsByOp(self, op: str):
         try:
             select_query = select(ProductionEntity).filter(and_(
-                    ProductionEntity.op == op,
-                    ProductionEntity.invoiced == False
-                ))
+                ProductionEntity.op == op,
+                ProductionEntity.invoiced == False,
+                ProductionEntity.second_quality == '1º'
+            ))
             all_records = session.execute(select_query).fetchall()
             all_records = [record[0] for record in all_records]
             all_records = [
@@ -73,7 +74,10 @@ class ProductionService:
 
     def getLastRecordByOp(self, op: str):
         try:
-            select_query = select(ProductionEntity).filter_by(op=op).order_by(
+            select_query = select(ProductionEntity).filter(and_(   
+                ProductionEntity.op == op,
+                ProductionEntity.second_quality == '1º'
+            )).order_by(
                 desc(ProductionEntity.code_per_piece)
             ).limit(1)
             all_records = session.execute(select_query).fetchall()
@@ -116,7 +120,8 @@ class ProductionService:
                 "date": record.date,
                 "tear": record.tear,
                 "operator": record.operator,
-                "op": record.op
+                "op": record.op,
+                "second_quality": record.second_quality
             }
                 for record in all_records
             ]
@@ -148,7 +153,8 @@ class ProductionService:
                                     date=datetime.now(),
                                     tear=record.tear,
                                     op=record.op,
-                                    operator=record.operator)
+                                    operator=record.operator,
+                                    second_quality=record.second_quality)
             session.add(record_entity)
             session.commit()
 
@@ -194,7 +200,10 @@ class ProductionService:
 
     def getTotalWeight(self, op: str):
         try:
-            query = select(func.sum(ProductionEntity.weight)).filter_by(op=op)
+            query = select(func.sum(ProductionEntity.weight)).filter(and_(
+                ProductionEntity.op == op,
+                ProductionEntity.second_quality == '1º'
+            ))
             total_weight = session.execute(query).scalar()
 
             if total_weight is None: 
@@ -211,7 +220,10 @@ class ProductionService:
         try:
             total_count = (
                 session.query(func.count(ProductionEntity.id))
-                .filter(ProductionEntity.op == op)
+                .filter(and_(
+                    ProductionEntity.op == op,
+                    ProductionEntity.second_quality == '1º'
+                ))
                 .scalar()
             )
             return total_count
@@ -227,7 +239,8 @@ class ProductionService:
                 session.query(func.count(ProductionEntity.id))
                 .filter(and_(
                     ProductionEntity.op == op,
-                    ProductionEntity.invoiced == True
+                    ProductionEntity.invoiced == True,
+                    ProductionEntity.second_quality == '1º'
                 ))
                 .scalar()
             )

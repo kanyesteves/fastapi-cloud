@@ -17,6 +17,7 @@ class ProductionEntity(ProductionBase):
     tear:              Mapped[str]            = mapped_column(String(30))
     op:                Mapped[str]            = mapped_column(String(30))
     operator:          Mapped[str]            = mapped_column(String(30))
+    second_quality:    Mapped[str]            = mapped_column(String(10))
     
 
 
