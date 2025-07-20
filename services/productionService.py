@@ -250,3 +250,21 @@ class ProductionService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+
+    def getTotalSecondQuality(self, op: str):
+        try:
+            query = select(func.sum(ProductionEntity.weight)).filter(and_(
+                ProductionEntity.op == op,
+                ProductionEntity.second_quality == '2º'
+            ))
+            total_weight = session.execute(query).scalar()
+
+            if total_weight is None: 
+                total_weight = 0
+
+            return total_weight
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
