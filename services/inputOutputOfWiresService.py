@@ -65,32 +65,3 @@ class InputOutputOfWiresService:
             print(f"ERRO: {er}")
         finally:
             session.close()
-
-    def updateInputOutputOfWires(self, id, inputOutputOfWires: InputOutputOfWiresUpdate):
-        try:
-            select_query = select(InputOutputOfWiresEntity).filter_by(id=id)
-            InputOutputOfWires = session.execute(select_query).fetchall()
-            for inputOutputOfWire in InputOutputOfWires:
-                for key, value in inputOutputOfWires.dict(exclude_unset=True).items():
-                    setattr(inputOutputOfWire[0], key, value)
-
-            session.commit()
-        except SQLAlchemyError as er:
-            session.rollback()
-            print(f"ERRO: {er}")
-        finally:
-            session.close()
-
-    def deleteInputOutputOfWires(self, id):
-        try:
-            select_query = select(InputOutputOfWiresEntity).filter_by(id=id)
-            InputOutputOfWires = session.execute(select_query).fetchall()
-            for inputOutputOfWire in InputOutputOfWires:
-                session.delete(inputOutputOfWire[0])
-
-            session.commit()
-        except SQLAlchemyError as er:
-            session.rollback()
-            print(f"ERRO: {er}")
-        finally:
-            session.close()

@@ -4,6 +4,7 @@ from sqlalchemy import select, delete, desc
 from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
+from services.wireService import WireService
 from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationUpdate
 from entities.orderOfOperationEntity import OrderOfOperationEntity
 from entities.opHasCustomerEntity import OpHasCustomerEntity
@@ -14,6 +15,7 @@ from entities.articleEntity import ArticleEntity
 from entities.wireEntity import WireEntity
 
 conn = ConnectDB()
+wire_service = WireService()
 Session = sessionmaker(bind=conn.engine)
 session = Session()
 
@@ -136,6 +138,13 @@ class OrderOfOperationrService:
             relation_has_article = OpHasArticleEntity(op_id=last_id, article_id=op.article)
             session.add(relation_has_article)
             session.commit()
+
+            for wire in list(op.wire_porcentage):
+                weight = (float(wire["value"]) / 100) * op.total_weight
+                wire_aux = wire_service.getWireByName(wire["name"])
+                wire_aux.weight = wire_aux.weight + weight
+                session.query(WireEntity).filter(WireEntity.id == wire_aux.id).update({"weight": wire_aux.weight})
+                session.commit()
 
             for wire_id in op.wires:
                 relation_has_wires = OpHasWiresEntity(op_id=last_id, wire_id=wire_id)
