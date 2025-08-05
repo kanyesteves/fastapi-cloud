@@ -1,4 +1,4 @@
-from schemas.inputOutputOfWiresSchema import InputOutputOfWiresSchema, InputOutputOfWiresUpdate, InputOutputOfWiresPublic
+from schemas.inputOutputOfWiresSchema import InputOutputOfWiresSchema, InputOutputOfWiresPublic
 from services.inputOutputOfWiresService import InputOutputOfWiresService
 from services.authService import AuthService
 from fastapi import APIRouter, Depends
@@ -33,21 +33,5 @@ def createInputOutputOfWires(inputOutputOfWires: InputOutputOfWiresSchema):
     try: 
         service.createInputOutputOfWires(inputOutputOfWires)
         return "Registro de recebimento criado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
-
-@router.put('/update/{inputOutputOfWires_id}', status_code=HTTPStatus.OK)
-def updateInputOutputOfWires(inputOutputOfWires_id: int, inputOutputOfWires: InputOutputOfWiresUpdate):
-    try:
-        service.updateInputOutputOfWires(inputOutputOfWires_id, inputOutputOfWires)
-        return "Registro de recebimento atualizado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
-
-@router.delete('/remove/{inputOutputOfWires_id}', status_code=HTTPStatus.OK)
-def removeInputOutputOfWires(inputOutputOfWires_id: int):
-    try: 
-        service.deleteInputOutputOfWires(inputOutputOfWires_id)
-        return "Registro de recebimento removido com sucesso !!"
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY

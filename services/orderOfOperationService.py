@@ -5,6 +5,7 @@ from utils.connDB import ConnectDB
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from services.wireService import WireService
+from entities.inputOutputOfWiresEntity import InputOutputOfWiresEntity
 from schemas.orderOfOperationSchema import OrderOfOperationSchema, OrderOfOperationUpdate
 from entities.orderOfOperationEntity import OrderOfOperationEntity
 from entities.opHasCustomerEntity import OpHasCustomerEntity
@@ -115,18 +116,38 @@ class OrderOfOperationrService:
         finally:
             session.close()
 
+    def getFiscalNoteByOP(self, op):
+        try:
+            select_query = select(OrderOfOperationEntity).filter_by(code=op)
+            ops = session.execute(select_query).fetchall()
+            ops = [op[0] for op in ops]
+            op = [
+                {
+                    "id": op.id,
+                    "code": op.code,
+                    "fiscal_note": op.fiscal_note
+                }
+                for op in ops
+            ]
+            return op[0]
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
     def createOP(self, op: OrderOfOperationSchema):
         try:
             op_entity = OrderOfOperationEntity(
-                                        code=op.code,
-                                        weight_per_piece=op.weight_per_piece,
-                                        label_item=op.label_item,
-                                        total_weight=op.total_weight,
-                                        total_pieces=op.total_pieces,
-                                        date_open=datetime.now(),
-                                        wire_porcentage=op.wire_porcentage,
-                                        fiscal_note=op.fiscal_note,
-                                        status='open')
+                            code=op.code,
+                            weight_per_piece=op.weight_per_piece,
+                            label_item=op.label_item,
+                            total_weight=op.total_weight,
+                            total_pieces=op.total_pieces,
+                            date_open=datetime.now(),
+                            wire_porcentage=op.wire_porcentage,
+                            fiscal_note=op.fiscal_note,
+                            status='open')
             session.add(op_entity)
             session.commit()
             last_id = op_entity.id
@@ -142,7 +163,15 @@ class OrderOfOperationrService:
             for wire in list(op.wire_porcentage):
                 weight = (float(wire["value"]) / 100) * op.total_weight
                 wire_aux = wire_service.getWireByName(wire["name"])
-                wire_aux.weight = wire_aux.weight + weight
+                wire_aux.weight += weight
+                io_wires = InputOutputOfWiresEntity(
+                    name=wire["name"],
+                    weight=weight,
+                    type_register='input',
+                    fiscal_note=op.fiscal_note,
+                    date_open=datetime.now()
+                )
+                session.add(io_wires)
                 session.query(WireEntity).filter(WireEntity.id == wire_aux.id).update({"weight": wire_aux.weight})
                 session.commit()
 

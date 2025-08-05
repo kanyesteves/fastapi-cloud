@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import List
 
 class InputOutputOfWiresSchema(BaseModel):
     name: str
@@ -10,12 +10,6 @@ class InputOutputOfWiresSchema(BaseModel):
 
 class InputOutputOfWiresResponseModel(InputOutputOfWiresSchema):
     id: int
-
-class InputOutputOfWiresUpdate(BaseModel):
-    name: str = None
-    type_register: Optional[str] = None
-    fiscal_note: Optional[str] = None
-    date_open: Optional[str] = None
 
 class InputOutputOfWiresPublic(BaseModel):
     id: int

@@ -5,7 +5,7 @@ from utils.connDB import ConnectDB
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
 from entities.inputOutputOfWiresEntity import InputOutputOfWiresEntity
-from schemas.inputOutputOfWiresSchema import InputOutputOfWiresSchema, InputOutputOfWiresUpdate
+from schemas.inputOutputOfWiresSchema import InputOutputOfWiresSchema
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)

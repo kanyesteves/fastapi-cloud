@@ -5,15 +5,18 @@ from sqlalchemy import select, desc
 from utils.connDB import ConnectDB
 from sqlalchemy.exc import SQLAlchemyError
 from services.wireService import WireService
+from services.orderOfOperationService import OrderOfOperationrService
 from jinja2 import Environment, FileSystemLoader
 from sqlalchemy.orm import Session, sessionmaker
 from schemas.invoicingSchema import InvoicingSchema
 from entities.invoicingEntity import InvoicingEntity
 from entities.productionEntity import ProductionEntity
+from entities.inputOutputOfWiresEntity import InputOutputOfWiresEntity
 from entities.wireEntity import WireEntity
 
 
 wire_service = WireService()
+op_service = OrderOfOperationrService()
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
 session = Session()
@@ -69,6 +72,16 @@ class InvoicingService:
                 weight = float(wire["weight"])
                 wire_aux = wire_service.getWireByName(wire["name"])
                 wire_aux.weight = wire_aux.weight - weight
+                fiscal_note_aux = op_service.getFiscalNoteByOP(invoicing.op)
+                fiscal_note = fiscal_note_aux['fiscal_note']
+                io_wires = InputOutputOfWiresEntity(
+                    name=wire["name"],
+                    weight=weight,
+                    type_register='invoicing',
+                    fiscal_note=fiscal_note,
+                    date_open=datetime.now()
+                )
+                session.add(io_wires)
                 session.query(WireEntity).filter(WireEntity.id == wire_aux.id).update({"weight": wire_aux.weight})
                 session.commit()
  
