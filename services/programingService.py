@@ -8,12 +8,17 @@ from schemas.programingSchema import ProgramingSchema
 from entities.programingHasTearEntity import ProgramingHasTearEntity
 from entities.programingHasOpEntity import ProgramingHasOpEntity
 from entities.programingEntity import ProgramingEntity
+from entities.programingReportEntity import ProgramingReportEntity
 from entities.tearEntity import TearEntity
 from entities.orderOfOperationEntity import OrderOfOperationEntity
+from services.orderOfOperationService import OrderOfOperationrService
+from services.tearService import TearService
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
 session = Session()
+op_service = OrderOfOperationrService()
+tear_service = TearService()
 
 class ProgramingService:
     def __init__(self):
@@ -91,13 +96,11 @@ class ProgramingService:
             session.commit()
             last_id = programing_entity.id
 
-            relation_has_tear = ProgramingHasTearEntity(programing_id=last_id, tear_id=programing.tear)
-            session.add(relation_has_tear)
+            session.add(ProgramingHasTearEntity(programing_id=last_id, tear_id=programing.tear))
+            session.add(ProgramingHasOpEntity(programing_id=last_id, op_id=programing.op))
             session.commit()
 
-            relation_has_op = ProgramingHasOpEntity(programing_id=last_id, op_id=programing.op)
-            session.add(relation_has_op)
-            session.commit()
+            self.createReport(programing, 'create')
 
         except SQLAlchemyError as er:
             session.rollback()
@@ -107,18 +110,47 @@ class ProgramingService:
 
     def deletePrograming(self, id):
         try:
+            programing_data = self.getProgramingById(id)
             select_query = select(ProgramingEntity).filter_by(id=id)
             programings = session.execute(select_query).fetchall()
             for programing in programings:
                 session.delete(programing[0])
 
             session.commit()
+            
+            self.createReport(programing_data, 'remove')
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")
         finally:
             session.close()
 
+
+    def createReport(self, programing: ProgramingSchema, input_type: str):
+        try:
+            print(programing)
+            op = op_service.getCodeById(programing.op)
+            tear = tear_service.getTearById(programing.tear)
+
+            programing_report = ProgramingReportEntity(
+                name=programing.name,
+                rpm=programing.rpm,
+                op=op['code'],
+                tear=tear.name,
+                date_start=self.formatDate(programing.date_start),
+                date_end=self.formatDate(programing.date_end),
+                efficiency=programing.efficiency,
+                weight_daily=programing.weight_daily,
+                days_for_done=programing.days_for_done,
+                type_register=input_type
+            )
+            session.add(programing_report)
+            session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
 # ----------------- Métodos de relacionamento
     def getTearHasPrograming(self, programing_id):
         try:

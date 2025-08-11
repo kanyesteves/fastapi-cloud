@@ -27,6 +27,7 @@ def create_app():
     from routes import configurationRouter
     from routes import authRouter
     from routes import inputOutputOfWiresRouter
+    from routes import programingReportRouter
 
     app.include_router(userRouter.router)
     app.include_router(tearRouter.router)
@@ -42,5 +43,6 @@ def create_app():
     app.include_router(configurationRouter.router)
     app.include_router(authRouter.router)
     app.include_router(inputOutputOfWiresRouter.router)
+    app.include_router(programingReportRouter.router)
 
     return app

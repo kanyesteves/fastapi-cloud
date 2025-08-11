@@ -135,6 +135,24 @@ class OrderOfOperationrService:
             print(f"ERRO: {er}")
         finally:
             session.close()
+    
+    def getCodeById(self, id):
+        try:
+            select_query = select(OrderOfOperationEntity).filter_by(id=id)
+            ops = session.execute(select_query).fetchall()
+            ops = [op[0] for op in ops]
+            op = [
+                {
+                    "code": op.code,
+                }
+                for op in ops
+            ]
+            return op[0]
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
 
     def createOP(self, op: OrderOfOperationSchema):
         try:

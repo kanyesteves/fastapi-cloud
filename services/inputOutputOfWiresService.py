@@ -48,20 +48,3 @@ class InputOutputOfWiresService:
             print(f"ERRO: {er}")
         finally:
             session.close()
-
-    def createInputOutputOfWires(self, InputOutputOfWires: InputOutputOfWiresSchema):
-        try:
-            InputOutputOfWires_entity = InputOutputOfWiresEntity(
-                name=InputOutputOfWires.name, 
-                weight=InputOutputOfWires.weight,
-                type_register=InputOutputOfWires.type_register,
-                fiscal_note=InputOutputOfWires.fiscal_note,
-                date_open=datetime.now()
-            )
-            session.add(InputOutputOfWires_entity)
-            session.commit()
-        except SQLAlchemyError as er:
-            session.rollback()
-            print(f"ERRO: {er}")
-        finally:
-            session.close()

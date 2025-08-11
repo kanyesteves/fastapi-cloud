@@ -27,11 +27,3 @@ def getInputOutputOfWiresById(inputOutputOfWires_id: int):
         return inputOutputOfWires
     except:
         return HTTPStatus.NOT_FOUND
-    
-@router.post('/register', status_code=HTTPStatus.CREATED)
-def createInputOutputOfWires(inputOutputOfWires: InputOutputOfWiresSchema):
-    try: 
-        service.createInputOutputOfWires(inputOutputOfWires)
-        return "Registro de recebimento criado com sucesso !!"
-    except:
-        return HTTPStatus.UNPROCESSABLE_ENTITY
