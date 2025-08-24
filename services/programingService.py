@@ -100,7 +100,7 @@ class ProgramingService:
             session.add(ProgramingHasOpEntity(programing_id=last_id, op_id=programing.op))
             session.commit()
 
-            self.createReport(programing, 'create')
+            self.createReport(programing)
 
         except SQLAlchemyError as er:
             session.rollback()
@@ -118,17 +118,37 @@ class ProgramingService:
 
             session.commit()
             
-            self.createReport(programing_data, 'remove')
+            self.createReportWithDict(programing_data)
         except SQLAlchemyError as er:
             session.rollback()
             print(f"ERRO: {er}")
         finally:
             session.close()
 
-
-    def createReport(self, programing: ProgramingSchema, input_type: str):
+    def createReportWithDict(self, programing: dict):
         try:
-            print(programing)
+            programing_report = ProgramingReportEntity(
+                name=programing[0]['name'],
+                rpm=programing[0]['rpm'],
+                op=programing[0]['op'][0]['code'],
+                tear=programing[0]['tear'][0]['name'],
+                date_start=programing[0]['date_start'],
+                date_end=programing[0]['date_end'],
+                efficiency=programing[0]['efficiency'],
+                weight_daily=programing[0]['weight_daily'],
+                days_for_done=programing[0]['days_for_done'],
+                type_register='remove'
+            )
+            session.add(programing_report)
+            session.commit()
+        except SQLAlchemyError as er:
+            session.rollback()
+            print(f"ERRO: {er}")
+        finally:
+            session.close()
+
+    def createReport(self, programing: ProgramingSchema):
+        try:
             op = op_service.getCodeById(programing.op)
             tear = tear_service.getTearById(programing.tear)
 
@@ -142,7 +162,7 @@ class ProgramingService:
                 efficiency=programing.efficiency,
                 weight_daily=programing.weight_daily,
                 days_for_done=programing.days_for_done,
-                type_register=input_type
+                type_register='create'
             )
             session.add(programing_report)
             session.commit()
