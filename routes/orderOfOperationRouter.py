@@ -13,10 +13,10 @@ router = APIRouter(
     dependencies=[Depends(auth_service.get_current_user)]
 )
     
-@router.get('/getAll', status_code=HTTPStatus.OK)
-def getAllOPs():
+@router.get('/getAllClosed', status_code=HTTPStatus.OK)
+def getAllOPsClosed():
     try: 
-        ops = service.getAllOPs()
+        ops = service.getAllOPsClosed()
         return ops
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY

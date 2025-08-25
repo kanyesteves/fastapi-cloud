@@ -24,9 +24,11 @@ class OrderOfOperationrService:
     def __init__(self):
         self.lib = Libs()
 
-    def getAllOPs(self):
+    def getAllOPsClosed(self):
         try:
-            select_query = select(OrderOfOperationEntity).order_by(desc(OrderOfOperationEntity.date_open))
+            select_query = select(OrderOfOperationEntity).order_by(desc(OrderOfOperationEntity.date_open)).filter(
+                OrderOfOperationEntity.status.in_(['closed'])
+            )
             all_ops = session.execute(select_query).fetchall()
             all_ops = [op[0] for op in all_ops]
             all_ops = [
