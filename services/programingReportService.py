@@ -1,11 +1,9 @@
 from utils.libs import Libs
-from datetime import datetime
 from sqlalchemy import select
 from utils.connDB import ConnectDB
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
 from entities.programingReportEntity import ProgramingReportEntity
-from schemas.programingReportSchema import ProgramingReportSchema
 
 conn = ConnectDB()
 Session = sessionmaker(bind=conn.engine)
@@ -32,7 +30,7 @@ class ProgramingReportService:
                     "efficiency": programing_report.efficiency,
                     "weight_daily": programing_report.weight_daily,
                     "days_for_done": programing_report.days_for_done,
-                    "type_register": programing_report.type
+                    "type_register": programing_report.type_register
                 }
                 for programing_report in all_programing_report
             ]

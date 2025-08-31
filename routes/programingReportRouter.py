@@ -1,4 +1,4 @@
-from schemas.programingReportSchema import ProgramingReportSchema, ProgramingReportPublic
+from schemas.programingReportSchema import ProgramingReportPublic
 from services.programingReportService import ProgramingReportService
 from services.authService import AuthService
 from fastapi import APIRouter, Depends
@@ -15,7 +15,7 @@ router = APIRouter(
 @router.get('/getAll', status_code=HTTPStatus.OK)
 def getAllProgramingReport():
     try: 
-        programingReport = service.getAllInputOutputOfWires()
+        programingReport = service.getAllProgramingReport()
         return programingReport
     except:
         return HTTPStatus.UNPROCESSABLE_ENTITY
